@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Crypto Checkout | Peptides Factory</title>
+    <title>Shopping Cart & Secure Checkout | Peptides Factory</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -14,45 +14,170 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-light);
+            margin: 0; padding: 0;
             color: var(--text-dark);
-            margin: 0; padding: 20px;
+            background-color: #fff;
         }
-        .checkout-container {
-            max-width: 800px;
-            margin: 40px auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        }
-        .header-back {
+
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 15px;
-            margin-bottom: 30px;
+            padding: 15px 5%; 
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .header-back a {
-            color: var(--primary-color);
+        .logo-img {
+            height: 90px; 
+            width: auto;
+            object-fit: contain;
+        }
+        nav a {
+            margin: 0 15px;
             text-decoration: none;
-            font-weight: bold;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: 0.3s;
         }
-        h2 { color: var(--primary-color); border-left: 4px solid var(--accent-color); padding-left: 10px; font-size: 22px; margin-top: 30px; }
+        nav a:hover { color: var(--accent-color); }
+
+        .cart-container { 
+            max-width: 1100px; 
+            margin: 50px auto; 
+            padding: 0 20px; 
+            min-height: 400px;
+        }
+        .cart-title { 
+            color: var(--primary-color); 
+            font-size: 32px; 
+            margin-bottom: 30px; 
+            border-bottom: 2px solid #eee; 
+            padding-bottom: 10px; 
+        }
+
+        .cart-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-bottom: 40px; 
+        }
+        .cart-table th { 
+            background-color: var(--primary-color); 
+            color: white; 
+            padding: 15px; 
+            text-align: left; 
+            font-size: 16px;
+        }
+        .cart-table td { 
+            padding: 20px 15px; 
+            border-bottom: 1px solid #eee; 
+            vertical-align: middle; 
+        }
         
-        /* 表单样式 */
+        .item-image { 
+            width: 70px; 
+            height: 70px; 
+            object-fit: contain; 
+            background: #f0f0f0; 
+            border-radius: 6px; 
+            padding: 5px; 
+        }
+        .item-details { 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+        }
+        .item-name { 
+            font-weight: bold; 
+            color: var(--primary-color); 
+            font-size: 16px; 
+        }
+        .item-spec { 
+            color: #666; 
+            font-size: 14px; 
+            margin-top: 4px; 
+        }
+
+        .qty-control {
+            display: flex;
+            align-items: center;
+        }
+        .qty-btn { 
+            background: #eee; 
+            border: none; 
+            padding: 5px 12px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            border-radius: 4px; 
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .qty-btn:hover { background: #ddd; }
+        .qty-input { 
+            width: 40px; 
+            text-align: center; 
+            border: 1px solid #ddd; 
+            padding: 5px; 
+            margin: 0 5px; 
+            border-radius: 4px; 
+            font-size: 16px; 
+        }
+
+        .delete-btn { 
+            background: none; 
+            border: none; 
+            color: #ff4d4d; 
+            cursor: pointer; 
+            font-size: 18px; 
+            transition: 0.3s; 
+        }
+        .delete-btn:hover { 
+            color: #cc0000; 
+            transform: scale(1.1); 
+        }
+
+        /* 结算结算与账户表单布局样式 */
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        @media (max-width: 768px) {
+            .checkout-layout { grid-template-columns: 1fr; }
+        }
+
+        .checkout-box {
+            background: var(--bg-light); 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+        }
+        .summary-row { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 15px; 
+            font-size: 16px; 
+        }
+        .summary-total { 
+            font-size: 22px; 
+            font-weight: bold; 
+            color: var(--primary-color); 
+            border-top: 2px solid #ddd; 
+            padding-top: 15px; 
+            margin-top: 15px; 
+        }
+
+        /* 核心输入表单样式 */
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; }
         .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
         .form-group input:focus, .form-group select:focus { border-color: var(--accent-color); outline: none; }
-        
-        /* 费用明细 */
-        .summary-box { background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0; }
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 16px; }
-        .total-row { font-size: 20px; font-weight: bold; color: #d9534f; border-top: 1px solid #ddd; padding-top: 10px; }
-        
-        /* 账户面板共通样式 */
+
+        /* 加密货币展示面板 */
         .payment-method-panel { display: none; background-color: #fcf8e3; border: 1px dashed #fbeed5; padding: 20px; border-radius: 8px; line-height: 1.6; margin-bottom: 25px; }
         .payment-method-panel.active { display: block; }
         .payment-method-panel p { margin: 6px 0; font-size: 15px; color: #c09853; }
@@ -60,224 +185,367 @@
         .crypto-address-box { background: #fff; padding: 12px; border: 1px solid #edd39e; border-radius: 6px; font-family: monospace; font-size: 14px; word-break: break-all; margin: 15px 0; font-weight: bold; color: #333; text-align: center; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
         .notice-text { color: #d9534f; font-size: 13px; font-weight: bold; margin-top: 10px; }
 
-        .submit-btn { width: 100%; background: var(--primary-color); color: white; padding: 15px; border: none; border-radius: 6px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .submit-btn:hover { background: var(--accent-color); color: var(--primary-color); }
+        .submit-btn { 
+            background-color: #25D366; 
+            color: white; 
+            width: 100%; 
+            padding: 15px; 
+            border: none; 
+            border-radius: 6px; 
+            font-size: 18px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            box-sizing: border-box; 
+            margin-top: 20px; 
+        }
+        .submit-btn:hover { 
+            background-color: #1ebd59; 
+            transform: translateY(-2px); 
+            box-shadow: 0 5px 15px rgba(37,211,102,0.3);
+        }
+
+        .empty-msg { 
+            text-align: center; 
+            padding: 60px 0; 
+        }
+        .empty-msg i { 
+            font-size: 60px; 
+            color: #ccc; 
+            margin-bottom: 20px; 
+        }
+        .empty-msg p { 
+            font-size: 18px; 
+            color: #666; 
+            margin-bottom: 25px; 
+        }
+        .shop-link { 
+            display: inline-block; 
+            background-color: var(--primary-color); 
+            color: white; 
+            padding: 12px 30px; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            font-weight: bold; 
+            transition: 0.3s; 
+        }
+        .shop-link:hover { 
+            background-color: var(--accent-color); 
+            color: var(--primary-color); 
+        }
+
+        footer { 
+            background-color: #0d1117; 
+            color: #9ca3af; 
+            padding: 40px 5% 20px; 
+            font-size: 14px; 
+            text-align: center; 
+            margin-top: 100px; 
+        }
     </style>
 </head>
 <body>
 
-<div class="checkout-container">
-    <div class="header-back">
-        <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Shop</a>
-        <span style="font-weight: bold; color: var(--primary-color);">SECURE CRYPTO CHECKOUT</span>
+    <header>
+        <a href="index.html" class="logo-container">
+            <img src="logo.png" alt="Logo" class="logo-img">
+        </a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="index.html#shop">Shop</a>
+        </nav>
+    </header>
+
+    <div class="cart-container">
+        <h1 class="cart-title">Your Shopping Cart</h1>
+        
+        <div id="cart-content"></div>
+
+        <div id="checkout-section" style="display: none;">
+            <form action="https://formspree.io/f/你的Formspree表单ID" method="POST" id="checkout-form" class="checkout-layout">
+                
+                <input type="hidden" name="Purchased_Items" id="hidden-cart-items">
+                <input type="hidden" name="Total_Boxes" id="hidden-total-boxes">
+                <input type="hidden" name="Total_Weight" id="hidden-total-weight">
+                <input type="hidden" name="Final_Grand_Total" id="hidden-grand-total">
+
+                <div class="checkout-box" style="background:#fff; border:1px solid #eee; padding:25px;">
+                    <h3 style="color:var(--primary-color); margin-top:0;"><i class="fas fa-truck"></i> 1. Shipping Address & Contact</h3>
+                    <hr style="border:0; border-top:1px solid #eee; margin-bottom:20px;">
+                    
+                    <div class="form-group">
+                        <label>1. Full Name *</label>
+                        <input type="text" name="Customer_Name" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>2. Detailed Address *</label>
+                        <input type="text" name="Shipping_Address" required placeholder="Street, Apartment, Suite, Unit">
+                    </div>
+                    <div class="form-group">
+                        <label>3. Zip / Postal Code *</label>
+                        <input type="text" name="Zip_Code" required placeholder="e.g. 90001">
+                    </div>
+                    <div class="form-group">
+                        <label>4. Phone Number *</label>
+                        <input type="tel" name="Phone_Number" required placeholder="e.g. +1 234 567 890">
+                    </div>
+                    <div class="form-group">
+                        <label>5. Country * (Type to automatically update shipping fee)</label>
+                        <input type="text" name="Country" id="input-country" required placeholder="e.g. United States, United Kingdom, Canada">
+                    </div>
+                    <div class="form-group">
+                        <label>6. Email Address *</label>
+                        <input type="email" name="Email_Address" required placeholder="yourname@example.com">
+                    </div>
+                </div>
+
+                <div class="checkout-box">
+                    <h3 style="color:var(--primary-color); margin-top:0;"><i class="fas fa-file-invoice-dollar"></i> 2. Order Summary & Payment</h3>
+                    <hr style="border:0; border-top:1px solid #ddd; margin-bottom:20px;">
+                    
+                    <div class="summary-row"><span>Products Subtotal:</span><span id="display-subtotal">$0.00</span></div>
+                    <div class="summary-row" style="color: #666; font-size: 14px;"><span>Total Boxes:</span><span id="display-boxes">0 boxes</span></div>
+                    <div class="summary-row" style="color: #666; font-size: 14px;"><span>Net Weight (90g/box):</span><span id="display-weight">0g</span></div>
+                    <div class="summary-row"><span>Stealth Shipping Fee:</span><span id="display-shipping">$0.00</span></div>
+                    <div class="summary-row summary-total"><span>Grand Total:</span><span id="display-total">$0.00</span></div>
+
+                    <div class="form-group" style="margin-top:25px;">
+                        <label><i class="fab fa-bitcoin"></i> Select Cryptocurrency Network:</label>
+                        <select name="Chosen_Crypto" id="crypto-selector">
+                            <option value="USDT-TRC20">USDT (TRC20 Network) - Low Fee / Recommended</option>
+                            <option value="USDT-ERC20">USDT / ETH (ERC20 Ethereum Network)</option>
+                            <option value="Bitcoin">Bitcoin (BTC - Taproot)</option>
+                        </select>
+                    </div>
+
+                    <div id="panel-usdt-trc20" class="payment-method-panel active">
+                        <p>Send equivalent value of <strong style="color:red;" class="total-placeholder">$0.00</strong> (1 USD = 1 USDT) to TRC20 address:</p>
+                        <div class="crypto-address-box">TB9Cr786LZDYdYNqYHZGExbx4oGYqGMiWj</div>
+                        <p style="font-size:12px; opacity:0.8;"><i class="fas fa-info-circle"></i> <strong>CRITICAL:</strong> Transfer via <strong>TRON (TRC20)</strong> network only.</p>
+                    </div>
+
+                    <div id="panel-usdt-erc20" class="payment-method-panel">
+                        <p>Send equivalent value of <strong style="color:red;" class="total-placeholder">$0.00</strong> (1 USD = 1 USDT) to ERC20 address:</p>
+                        <div class="crypto-address-box">0xFC8e55dc3C29e2A5895dFC96A9B0703684518574</div>
+                        <p style="font-size:12px; opacity:0.8;"><i class="fas fa-info-circle"></i> <strong>CRITICAL:</strong> Transfer via <strong>Ethereum (ERC20)</strong> mainnet only.</p>
+                    </div>
+
+                    <div id="panel-btc" class="payment-method-panel">
+                        <p>Send equivalent value of <strong style="color:red;" class="total-placeholder">$0.00</strong> to official BTC address:</p>
+                        <div class="crypto-address-box">bc1pqcvdkrk3xre984068cr79ekxm7g0trf9cnqasf3jkp8k4ar47x8q9hc3zg</div>
+                        <p style="font-size:12px; opacity:0.8;"><i class="fas fa-info-circle"></i> Use Bitcoin mainnet (P2TR / Taproot compatible wallet).</p>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label>Paste Payment TxID / Transaction Hash *</label>
+                        <input type="text" name="Crypto_TxID" required placeholder="Paste your 64-character transaction hash here">
+                    </div>
+
+                    <button type="submit" class="submit-btn"><i class="fas fa-check-circle"></i> Submit Order Details</button>
+                </div>
+            </form>
+        </div>
     </div>
 
-    <form action="https://formspree.io/f/你的Formspree表单ID" method="POST" id="checkout-form">
-        
-        <input type="hidden" name="Items_In_Cart" id="hidden-cart-items">
-        <input type="hidden" name="Total_Boxes" id="hidden-total-boxes">
-        <input type="hidden" name="Total_Weight" id="hidden-total-weight">
-        <input type="hidden" name="Final_Grand_Total" id="hidden-grand-total">
+    <footer>
+        <div>Copyright © 2026 Peptides Factory. All Rights Reserved.</div>
+    </footer>
 
-        <h2>1. Shipping Address & Contact</h2>
-        <div class="form-group">
-            <label>1. Full Name *</label>
-            <input type="text" name="Customer_Name" required placeholder="John Doe">
-        </div>
-        <div class="form-group">
-            <label>2. Detailed Address *</label>
-            <input type="text" name="Shipping_Address" required placeholder="Street, Apartment, Suite, Unit">
-        </div>
-        <div class="form-group">
-            <label>3. Zip / Postal Code *</label>
-            <input type="text" name="Zip_Code" required placeholder="e.g. 90001">
-        </div>
-        <div class="form-group">
-            <label>4. Phone Number *</label>
-            <input type="tel" name="Phone_Number" required placeholder="e.g. +1 234 567 890">
-        </div>
-        <div class="form-group">
-            <label>5. Country * (Type to automatically calculate shipping)</label>
-            <input type="text" name="Country" id="input-country" required placeholder="e.g. United States, United Kingdom, Canada">
-        </div>
-        <div class="form-group">
-            <label>6. Email Address *</label>
-            <input type="email" name="Email_Address" required placeholder="yourname@example.com">
-        </div>
+    <script>
+        // 全局变量，保留你原本用来统计价格的体系
+        let currentSubtotal = 0;
+        let globalTotalBoxes = 0;
+        let globalTotalWeight = 0;
 
-        <h2>2. Order Summary & Shipping</h2>
-        <div class="summary-box">
-            <div class="summary-row">
-                <span>Products Subtotal:</span>
-                <span id="display-subtotal">$0.00</span>
-            </div>
-            <div class="summary-row" style="color: #666; font-size: 14px;">
-                <span>Total Quantity (Boxes):</span>
-                <span id="display-boxes">0 boxes</span>
-            </div>
-            <div class="summary-row">
-                <span>Total Net Weight (90g/box):</span>
-                <span id="display-weight">0g</span>
-            </div>
-            <div class="summary-row">
-                <span>Stealth Shipping Fee:</span>
-                <span id="display-shipping">$0.00</span>
-            </div>
-            <div class="summary-row total-row">
-                <span>Grand Total:</span>
-                <span id="display-total">$0.00</span>
-            </div>
-        </div>
-
-        <h2>3. Select Cryptocurrency</h2>
-        <div class="form-group">
-            <label>Choose your preferred crypto network:</label>
-            <select name="Chosen_Crypto" id="crypto-selector">
-                <option value="USDT-TRC20">USDT (TRC20 Network) - Low Fee / Recommended</option>
-                <option value="USDT-ERC20">USDT / ETH (ERC20 Ethereum Network)</option>
-                <option value="Bitcoin">Bitcoin (BTC - Taproot)</option>
-            </select>
-        </div>
-
-        <div id="panel-usdt-trc20" class="payment-method-panel active">
-            <p>Please send the equivalent value of the <strong style="color:red;">Grand Total (1 USD = 1 USDT)</strong> to our TRC20 address:</p>
-            <div class="crypto-address-box">TB9Cr786LZDYdYNqYHZGExbx4oGYqGMiWj</div>
-            <p style="font-size:12px; opacity:0.8;"><i class="fas fa-info-circle"></i> <strong>CRITICAL:</strong> Only send <strong>USDT</strong> via the <strong>TRON (TRC20)</strong> network. Other networks will cause permanent asset loss.</p>
-            <div class="notice-text">
-                <i class="fas fa-exclamation-triangle"></i> NOTICE: Once transferred, paste the TxID below and click "Submit Order Details".
-            </div>
-        </div>
-
-        <div id="panel-usdt-erc20" class="payment-method-panel">
-            <p>Please send the equivalent value of the <strong style="color:red;">Grand Total (1 USD = 1 USDT)</strong> to our ERC20 address:</p>
-            <div class="crypto-address-box">0xFC8e55dc3C29e2A5895dFC96A9B0703684518574</div>
-            <p style="font-size:12px; opacity:0.8;"><i class="fas fa-info-circle"></i> <strong>CRITICAL:</strong> Only send <strong>USDT or ETH</strong> via the <strong>Ethereum (ERC20)</strong> mainnet. Do not use BSC, Polygon or Arbitrum networks.</p>
-            <div class="notice-text">
-                <i class="fas fa-exclamation-triangle"></i> NOTICE: Once transferred, paste the TxID below and click "Submit Order Details".
-            </div>
-        </div>
-
-        <div id="panel-btc" class="payment-method-panel">
-            <p>Please send the equivalent value of the <strong style="color:red;">Grand Total</strong> to our official BTC address:</p>
-            <div class="crypto-address-box">bc1pqcvdkrk3xre984068cr79ekxm7g0trf9cnqasf3jkp8k4ar47x8q9hc3zg</div>
-            <p style="font-size:12px; opacity:0.8;"><i class="fas fa-info-circle"></i> Ensure you are using the Bitcoin mainnet (P2TR / Taproot compatible wallet) to make the transfer.</p>
-            <div class="notice-text">
-                <i class="fas fa-exclamation-triangle"></i> NOTICE: Once transferred, paste the TxID below and click "Submit Order Details".
-            </div>
-        </div>
-
-        <div class="form-group" style="margin-top: 25px;">
-            <label>Paste Transaction ID (TxID) / Payment Hash *</label>
-            <input type="text" name="Crypto_TxID" required placeholder="Paste your 64-character transaction hash here">
-        </div>
-
-        <button type="submit" class="submit-btn">Submit Order & Shipping Details</button>
-    </form>
-</div>
-
-<script>
-    // 1. 获取基础金额
-    let cartSubtotal = parseFloat(localStorage.getItem('peptides_cart_total')) || 200.00;
-    
-    // 2. 重量获取逻辑：优先读取前一页存入的真实重量，若无则尝试通过盒数计算，再无则给默认500g低保值
-    let totalWeight = parseInt(localStorage.getItem('peptides_cart_weight'));
-    let totalBoxes = parseInt(localStorage.getItem('peptides_cart_boxes'));
-
-    if (isNaN(totalWeight) || totalWeight <= 0) {
-        if (!isNaN(totalBoxes) && totalBoxes > 0) {
-            totalWeight = totalBoxes * 90; // 每盒 90g
-        } else {
-            totalWeight = 500; // 兜底默认值
-            totalBoxes = Math.ceil(500 / 90);
-        }
-    } else {
-        totalBoxes = Math.ceil(totalWeight / 90);
-    }
-
-    const countryInput = document.getElementById('input-country');
-    const boxesDisplay = document.getElementById('display-boxes');
-    const weightDisplay = document.getElementById('display-weight');
-    const shippingDisplay = document.getElementById('display-shipping');
-    const subtotalDisplay = document.getElementById('display-subtotal');
-    const totalDisplay = document.getElementById('display-total');
-    
-    const hiddenItems = document.getElementById('hidden-cart-items');
-    const hiddenBoxes = document.getElementById('hidden-total-boxes');
-    const hiddenWeight = document.getElementById('hidden-total-weight');
-    const hiddenTotal = document.getElementById('hidden-grand-total');
-
-    const cryptoSelector = document.getElementById('crypto-selector');
-    const panelTrc20 = document.getElementById('panel-usdt-trc20');
-    const panelErc20 = document.getElementById('panel-usdt-erc20');
-    const panelBtc = document.getElementById('panel-btc');
-
-    // 加密货币面板切换
-    cryptoSelector.addEventListener('change', function(e) {
-        panelTrc20.classList.remove('active');
-        panelErc20.classList.remove('active');
-        panelBtc.classList.remove('active');
-
-        if (e.target.value === 'USDT-TRC20') {
-            panelTrc20.classList.add('active');
-        } else if (e.target.value === 'USDT-ERC20') {
-            panelErc20.classList.add('active');
-        } else if (e.target.value === 'Bitcoin') {
-            panelBtc.classList.add('active');
-        }
-    });
-
-    // 核心运费计算逻辑
-    function updateShippingAndTotals() {
-        let country = countryInput.value.trim().toLowerCase();
-        let shippingFee = 0;
-
-        // 判断是否为美国
-        let isUS = country.includes('united states') || country.includes('us') || country.includes('usa');
-
-        if (isUS) {
-            // 美国运费规则: 首重500g 80美金，每增加500g加10美金
-            if (totalWeight <= 500) {
-                shippingFee = 80;
-            } else {
-                let extraWeight = totalWeight - 500;
-                let extraUnits = Math.ceil(extraWeight / 500); 
-                shippingFee = 80 + (extraUnits * 10);
+        // 加载数据并动态构建产品列表（完美融合你原本的代码架构）
+        function loadCart() {
+            let cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
+            const container = document.getElementById('cart-content');
+            const checkoutSection = document.getElementById('checkout-section');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-msg">
+                        <i class="fas fa-shopping-basket"></i>
+                        <p>Your shopping cart is empty.</p>
+                        <a href="index.html#shop" class="shop-link">Return to Shop</a>
+                    </div>
+                `;
+                checkoutSection.style.display = "none";
+                return;
             }
-        } else {
-            // 其他国家规则: 首重500g 60美金，每增加500g加10美金
-            if (totalWeight <= 500) {
-                shippingFee = 60;
-            } else {
-                let extraWeight = totalWeight - 500;
-                let extraUnits = Math.ceil(extraWeight / 500); 
-                shippingFee = 60 + (extraUnits * 10);
-            }
+            
+            let tableHTML = `
+                <table class="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            currentSubtotal = 0;
+            globalTotalBoxes = 0;
+            let itemSummaryText = ""; // 用来打包发给 Formspree
+            
+            cart.forEach((item, index) => {
+                let itemTotal = item.price * item.quantity;
+                currentSubtotal += itemTotal;
+                globalTotalBoxes += item.quantity; // 累加每款产品加起来的总盒数
+                
+                tableHTML += `
+                    <tr>
+                        <td>
+                            <div class="item-details">
+                                <img src="${item.image}" alt="${item.name}" class="item-image">
+                                <div>
+                                    <div class="item-name">${item.name}</div>
+                                    <div class="item-spec">Specification: ${item.spec}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>$${item.price.toFixed(2)}</td>
+                        <td>
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="updateQty(${index}, -1)">-</button>
+                                <input type="text" class="qty-input" value="${item.quantity}" readonly>
+                                <button class="qty-btn" onclick="updateQty(${index}, 1)">+</button>
+                            </div>
+                        </td>
+                        <td>$${itemTotal.toFixed(2)}</td>
+                        <td>
+                            <button class="delete-btn" onclick="deleteItem(${index})">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+
+                itemSummaryText += `${item.name} (${item.spec}) x${item.quantity}; `;
+            });
+            
+            tableHTML += `</tbody></table>`;
+            container.innerHTML = tableHTML;
+            
+            // 数据准备充分后，展开下方的表单模块
+            checkoutSection.style.display = "block";
+            
+            // 核心公式：总重量 = 总盒数 × 90g
+            globalTotalWeight = globalTotalBoxes * 90;
+
+            // 把产品文本串塞进隐藏字段
+            document.getElementById('hidden-cart-items').value = itemSummaryText;
+
+            // 执行运费联动和总价更新
+            updateShippingAndTotals();
         }
-
-        // 未输入国家时展示默认基础运费
-        if (country === "") {
-            shippingFee = (totalWeight <= 500) ? 60 : 60 + (Math.ceil((totalWeight - 500) / 500) * 10);
-        }
-
-        let grandTotal = cartSubtotal + shippingFee;
-
-        // 渲染到前端页面
-        subtotalDisplay.innerText = '$' + cartSubtotal.toFixed(2);
-        boxesDisplay.innerText = totalBoxes + ' boxes';
-        weightDisplay.innerText = totalWeight + 'g';
-        shippingDisplay.innerText = '$' + shippingFee.toFixed(2);
-        totalDisplay.innerText = '$' + grandTotal.toFixed(2);
         
-        // 赋值给 Formspree 隐藏表单域
-        hiddenBoxes.value = totalBoxes + ' boxes';
-        hiddenWeight.value = totalWeight + 'g';
-        hiddenTotal.value = '$' + grandTotal.toFixed(2);
-        hiddenItems.value = localStorage.getItem('peptides_cart') || "Standard Research Kit";
-    }
+        // 数量加减（完美保留你原代码的无缝重渲染逻辑）
+        function updateQty(index, change) {
+            let cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
+            cart[index].quantity += change;
+            
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            
+            localStorage.setItem('peptides_cart', JSON.stringify(cart));
+            loadCart(); 
+        }
+        
+        // 删除产品
+        function deleteItem(index) {
+            let cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('peptides_cart', JSON.stringify(cart));
+            loadCart();
+        }
 
-    countryInput.addEventListener('input', updateShippingAndTotals);
-    updateShippingAndTotals();
-</script>
+        // ===== 以下为升级加入的运费精确算法与动态账户展示系统 =====
+        const countryInput = document.getElementById('input-country');
+        const cryptoSelector = document.getElementById('crypto-selector');
+        
+        const panelTrc20 = document.getElementById('panel-usdt-trc20');
+        const panelErc20 = document.getElementById('panel-usdt-erc20');
+        const panelBtc = document.getElementById('panel-btc');
 
+        // 加密货币网络下拉菜单智能联动切换
+        cryptoSelector.addEventListener('change', function(e) {
+            panelTrc20.classList.remove('active');
+            panelErc20.classList.remove('active');
+            panelBtc.classList.remove('active');
+
+            if (e.target.value === 'USDT-TRC20') panelTrc20.add('active');
+            else if (e.target.value === 'USDT-ERC20') panelErc20.classList.add('active');
+            else if (e.target.value === 'Bitcoin') panelBtc.classList.add('active');
+            
+            // 特效补丁：切换后确保 active 类生效
+            document.getElementById('panel-' + e.target.value.toLowerCase()).classList.add('active');
+        });
+
+        // 核心重量运费计算
+        function updateShippingAndTotals() {
+            let country = countryInput.value.trim().toLowerCase();
+            let shippingFee = 0;
+
+            // 检查国家是否为美国
+            let isUS = country.includes('united states') || country.includes('us') || country.includes('usa');
+
+            if (isUS) {
+                // 美国运费规则：首重500g为80美金，续重每500g增加10美金
+                if (globalTotalWeight <= 500) {
+                    shippingFee = 80;
+                } else {
+                    let extraWeight = globalTotalWeight - 500;
+                    let extraUnits = Math.ceil(extraWeight / 500); // 向上取整，不满500g按500g续重计算
+                    shippingFee = 80 + (extraUnits * 10);
+                }
+            } else {
+                // 其他国家规则：首重500g为60美金，续重每500g增加10美金
+                if (globalTotalWeight <= 500) {
+                    shippingFee = 60;
+                } else {
+                    let extraWeight = globalTotalWeight - 500;
+                    let extraUnits = Math.ceil(extraWeight / 500);
+                    shippingFee = 60 + (extraUnits * 10);
+                }
+            }
+
+            // 如果国家输入框空着，先展示基础的其他国家首重或续重运费
+            if (country === "") {
+                shippingFee = (globalTotalWeight <= 500) ? 60 : 60 + (Math.ceil((globalTotalWeight - 500) / 500) * 10);
+            }
+
+            let grandTotal = currentSubtotal + shippingFee;
+
+            // 把实时动态计算的数据渲染显示到右侧账单明细框中
+            document.getElementById('display-subtotal').innerText = '$' + currentSubtotal.toFixed(2);
+            document.getElementById('display-boxes').innerText = globalTotalBoxes + ' boxes';
+            document.getElementById('display-weight').innerText = globalTotalWeight + 'g';
+            document.getElementById('display-shipping').innerText = '$' + shippingFee.toFixed(2);
+            document.getElementById('display-total').innerText = '$' + grandTotal.toFixed(2);
+            
+            // 动态将最终应付美金总额更新到各币种的转账提示红字中
+            document.querySelectorAll('.total-placeholder').forEach(el => {
+                el.innerText = '$' + grandTotal.toFixed(2);
+            });
+
+            // 完美打包隐藏字段值，随 Formspree 提交给你的邮箱
+            document.getElementById('hidden-total-boxes').value = globalTotalBoxes + ' boxes';
+            document.getElementById('hidden-total-weight').value = globalTotalWeight + 'g';
+            document.getElementById('hidden-grand-total').value = '$' + grandTotal.toFixed(2);
+        }
+
+        // 监听国家输入框，键盘每敲击一次就实时刷新一次运费和总价
+        countryInput.addEventListener('input', updateShippingAndTotals);
+
+        // 首次加载初始化界面
+        loadCart();
+    </script>
 </body>
 </html>
