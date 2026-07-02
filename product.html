@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Peptide Details | Peptides Factory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --primary-color: #0a2540; --accent-color: #00d4b2; --text-dark: #333; --bg-light: #f8f9fa; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; padding: 0; color: var(--text-dark); background: #fff; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; border-bottom: 1px solid #eee; background: #fff; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .logo-container { display: flex; align-items: center; text-decoration: none; }
+        .logo-img { height: 60px; width: auto; object-fit: contain; }
+        nav a { margin: 0 15px; text-decoration: none; color: var(--text-dark); font-weight: 500; }
+        .cart-count { background: var(--accent-color); color: white; padding: 2px 6px; border-radius: 10px; font-size: 12px; font-weight: bold; }
+        
+        .detail-container { max-width: 1100px; margin: 50px auto; padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 50px; }
+        .product-image-box { background: var(--bg-light); border-radius: 12px; padding: 30px; display: flex; align-items: center; justify-content: center; border: 1px solid #e1e1e1; }
+        .product-image-box img { max-width: 100%; max-height: 400px; object-fit: contain; border-radius: 8px; }
+        
+        .product-info-box { display: flex; flex-direction: column; justify-content: center; }
+        .p-title { font-size: 32px; color: var(--primary-color); margin: 0 0 15px 0; font-weight: bold; }
+        .p-price { font-size: 28px; color: #e63946; font-weight: 700; margin-bottom: 25px; }
+        
+        .section-label { font-weight: bold; margin-bottom: 10px; color: #555; display: flex; align-items: center; gap: 5px; }
+        .spec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; margin-bottom: 25px; }
+        .spec-btn { border: 2px solid #e1e1e1; padding: 10px; border-radius: 8px; background: white; cursor: pointer; text-align: center; font-weight: 600; font-size: 14px; transition: 0.2s; }
+        .spec-btn:hover { border-color: var(--accent-color); color: var(--primary-color); }
+        .spec-btn.active { border-color: var(--primary-color); background: var(--primary-color); color: white; }
+        
+        .qty-box { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
+        .qty-btn { width: 40px; height: 40px; border: 1px solid #ccc; background: #fff; font-size: 20px; cursor: pointer; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+        .qty-input { width: 60px; height: 38px; text-align: center; font-size: 16px; border: 1px solid #ccc; border-radius: 6px; font-weight: bold; }
+        
+        .add-to-cart-btn { background: var(--primary-color); color: white; padding: 15px 40px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; max-width: 300px; }
+        .add-to-cart-btn:hover { background: var(--accent-color); color: var(--primary-color); }
+        
+        .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #25D366; color: white; padding: 12px 30px; border-radius: 30px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: 0.3s ease; opacity: 0; z-index: 9999; }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .disclaimer { border-top: 1px solid #eee; margin-top: 40px; padding-top: 20px; font-size: 12px; color: #6b7280; text-align: justify; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo-container"><img src="logo.png" alt="Logo" class="logo-img" onerror="this.src='logo.png'"></a>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="index.html#shop">Shop</a>
+            <a href="cart.html"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count" id="cart-count">0</span></a>
+        </nav>
+    </header>
+
+    <div class="detail-container" id="product-detail-area">
+        </div>
+
+    <div class="toast" id="toast-msg"><i class="fas fa-check-circle"></i> Added to Cart Successfully!</div>
+
+    <script src="data.js"></script>
+    <script>
+        let currentProduct = null;
+        let selectedVariant = null;
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function initProductPage() {
+            const productId = getQueryParam('id');
+            if (!productId || typeof PRODUCTS_DATA === 'undefined') {
+                document.getElementById('product-detail-area').innerHTML = `<h2>Product not found. <a href="index.html">Return Home</a></h2>`;
+                return;
+            }
+
+            currentProduct = PRODUCTS_DATA.find(p => p.id === productId);
+            if (!currentProduct) {
+                document.getElementById('product-detail-area').innerHTML = `<h2>Product not found. <a href="index.html">Return Home</a></h2>`;
+                return;
+            }
+
+            // 默认选第一个规格
+            selectedVariant = currentProduct.variants[0];
+
+            renderDetails();
+            updateCartCount();
+        }
+
+        function renderDetails() {
+            const container = document.getElementById('product-detail-area');
+            const imgFile = currentProduct.image ? currentProduct.image : 'logo.png';
+            
+            let specsHtml = '';
+            currentProduct.variants.forEach((v, idx) => {
+                const activeClass = v.spec === selectedVariant.spec ? 'active' : '';
+                specsHtml += `<button class="spec-btn ${activeClass}" onclick="selectSpec('${v.spec}')">${v.spec}</button>`;
+            });
+
+            container.innerHTML = `
+                <div class="product-image-box">
+                    <img src="${imgFile}" alt="${currentProduct.name}" onerror="this.src='logo.png'">
+                </div>
+                <div class="product-info-box">
+                    <h1 class="p-title">${currentProduct.name}</h1>
+                    <div class="p-price" id="display-price">$${selectedVariant.price.toFixed(2)}</div>
+                    
+                    <div class="section-label"><i class="fas fa-vial"></i> Select Specification (10 vials/Kit):</div>
+                    <div class="spec-grid">${specsHtml}</div>
+                    
+                    <div class="section-label"><i class="fas fa-boxes"></i> Quantity (Kits):</div>
+                    <div class="qty-box">
+                        <button class="qty-btn" onclick="changeQty(-1)">-</button>
+                        <input type="number" id="qty-input" class="qty-input" value="1" min="1">
+                        <button class="qty-btn" onclick="changeQty(1)">+</button>
+                    </div>
+                    
+                    <button class="add-to-cart-btn" onclick="handleAddToCart()">
+                        <i class="fas fa-shopping-cart"></i> Add To Cart
+                    </button>
+                    
+                    <div class="disclaimer">
+                        <strong>RESEARCH DISCLAIMER:</strong> This product is supplied strictly for laboratory research and development use only. Not for human clinical diagnostics, therapeutics, or cosmetics.
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectSpec(specName) {
+            selectedVariant = currentProduct.variants.find(v => v.spec === specName);
+            document.querySelectorAll('.spec-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent === specName) btn.classList.add('active');
+            });
+            document.getElementById('display-price').textContent = `$${selectedVariant.price.toFixed(2)}`;
+        }
+
+        function changeQty(amt) {
+            const input = document.getElementById('qty-input');
+            let val = parseInt(input.value) + amt;
+            if (val < 1) val = 1;
+            input.value = val;
+        }
+
+        function handleAddToCart() {
+            const qty = parseInt(document.getElementById('qty-input').value) || 1;
+            let cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
+            
+            // 检查购物车里是否已有同产品、同规格的东西
+            const existingIndex = cart.findIndex(item => item.id === currentProduct.id && item.spec === selectedVariant.spec);
+            
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += qty;
+            } else {
+                cart.push({
+                    id: currentProduct.id,
+                    name: currentProduct.name,
+                    image: currentProduct.image,
+                    spec: selectedVariant.spec,
+                    price: selectedVariant.price,
+                    quantity: qty
+                });
+            }
+            
+            localStorage.setItem('peptides_cart', JSON.stringify(cart));
+            
+            // 弹出加入成功提示
+            const toast = document.getElementById('toast-msg');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+            
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cart-count').textContent = totalItems;
+        }
+
+        document.addEventListener("DOMContentLoaded", initProductPage);
+    </script>
+</body>
+</html>
