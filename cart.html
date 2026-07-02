@@ -75,6 +75,8 @@
     <form action="https://formspree.io/f/你的Formspree表单ID" method="POST" id="checkout-form">
         
         <input type="hidden" name="Items_In_Cart" id="hidden-cart-items">
+        <input type="hidden" name="Total_Boxes" id="hidden-total-boxes">
+        <input type="hidden" name="Total_Weight" id="hidden-total-weight">
         <input type="hidden" name="Final_Grand_Total" id="hidden-grand-total">
 
         <h2>1. Shipping Address & Contact</h2>
@@ -96,7 +98,7 @@
         </div>
         <div class="form-group">
             <label>5. Country * (Type to automatically calculate shipping)</label>
-            <input type="text" name="Country" id="input-country" required placeholder="e.g. United States, United Kingdom, Dubai">
+            <input type="text" name="Country" id="input-country" required placeholder="e.g. United States, United Kingdom, Canada">
         </div>
         <div class="form-group">
             <label>6. Email Address *</label>
@@ -109,40 +111,58 @@
                 <span>Products Subtotal:</span>
                 <span id="display-subtotal">$0.00</span>
             </div>
+            <div class="summary-row" style="color: #666; font-size: 14px;">
+                <span>Total Quantity (Boxes):</span>
+                <span id="display-boxes">0 boxes</span>
+            </div>
+            <div class="summary-row">
+                <span>Total Net Weight (90g/box):</span>
+                <span id="display-weight">0g</span>
+            </div>
             <div class="summary-row">
                 <span>Stealth Shipping Fee:</span>
-                <span id="display-shipping">$30.00</span>
+                <span id="display-shipping">$0.00</span>
             </div>
             <div class="summary-row total-row">
                 <span>Grand Total:</span>
-                <span id="display-total">$30.00</span>
+                <span id="display-total">$0.00</span>
             </div>
         </div>
 
         <h2>3. Select Cryptocurrency</h2>
         <div class="form-group">
-            <label>Choose your preferred coin:</label>
+            <label>Choose your preferred crypto network:</label>
             <select name="Chosen_Crypto" id="crypto-selector">
-                <option value="USDT-TRC20">USDT (TRC20 Network) - Recommended</option>
+                <option value="USDT-TRC20">USDT (TRC20 Network) - Low Fee / Recommended</option>
+                <option value="USDT-ERC20">USDT / ETH (ERC20 Ethereum Network)</option>
                 <option value="Bitcoin">Bitcoin (BTC - Taproot)</option>
             </select>
         </div>
 
-        <div id="panel-usdt" class="payment-method-panel active">
-            <p>Please send the equivalent value of the <strong style="color:red;">Grand Total (1 USD = 1 USDT)</strong> to our official USDT address:</p>
+        <div id="panel-usdt-trc20" class="payment-method-panel active">
+            <p>Please send the equivalent value of the <strong style="color:red;">Grand Total (1 USD = 1 USDT)</strong> to our TRC20 address:</p>
             <div class="crypto-address-box">TB9Cr786LZDYdYNqYHZGExbx4oGYqGMiWj</div>
-            <p style="font-size:12px; opacity:0.8;"><i class="fas fa-info-circle"></i> <strong>CRITICAL:</strong> Only send <strong>USDT</strong> via the <strong>TRON / TRC20</strong> network. Sending via any other network will result in permanent loss.</p>
+            <p style="font-size:12px; opacity:0.8;"><i class="fas fa-info-circle"></i> <strong>CRITICAL:</strong> Only send <strong>USDT</strong> via the <strong>TRON (TRC20)</strong> network. Other networks will cause permanent asset loss.</p>
             <div class="notice-text">
-                <i class="fas fa-exclamation-triangle"></i> NOTICE: Once you completed the transfer, please fill in the TxID below and click "Submit Order Details".
+                <i class="fas fa-exclamation-triangle"></i> NOTICE: Once transferred, paste the TxID below and click "Submit Order Details".
+            </div>
+        </div>
+
+        <div id="panel-usdt-erc20" class="payment-method-panel">
+            <p>Please send the equivalent value of the <strong style="color:red;">Grand Total (1 USD = 1 USDT)</strong> to our ERC20 address:</p>
+            <div class="crypto-address-box">0xFC8e55dc3C29e2A5895dFC96A9B0703684518574</div>
+            <p style="font-size:12px; opacity:0.8;"><i class="fas fa-info-circle"></i> <strong>CRITICAL:</strong> Only send <strong>USDT or ETH</strong> via the <strong>Ethereum (ERC20)</strong> mainnet. Do not use BSC, Polygon or Arbitrum networks.</p>
+            <div class="notice-text">
+                <i class="fas fa-exclamation-triangle"></i> NOTICE: Once transferred, paste the TxID below and click "Submit Order Details".
             </div>
         </div>
 
         <div id="panel-btc" class="payment-method-panel">
-            <p>Please send the equivalent value of the <strong style="color:red;">Grand Total</strong> to our official BTC address (Taproot network):</p>
+            <p>Please send the equivalent value of the <strong style="color:red;">Grand Total</strong> to our official BTC address:</p>
             <div class="crypto-address-box">bc1pqcvdkrk3xre984068cr79ekxm7g0trf9cnqasf3jkp8k4ar47x8q9hc3zg</div>
             <p style="font-size:12px; opacity:0.8;"><i class="fas fa-info-circle"></i> Ensure you are using the Bitcoin mainnet (P2TR / Taproot compatible wallet) to make the transfer.</p>
             <div class="notice-text">
-                <i class="fas fa-exclamation-triangle"></i> NOTICE: Once you completed the transfer, please fill in the TxID below and click "Submit Order Details".
+                <i class="fas fa-exclamation-triangle"></i> NOTICE: Once transferred, paste the TxID below and click "Submit Order Details".
             </div>
         </div>
 
@@ -156,61 +176,107 @@
 </div>
 
 <script>
+    // 1. 获取基础金额
     let cartSubtotal = parseFloat(localStorage.getItem('peptides_cart_total')) || 200.00;
-    let defaultShipping = 30.00;
+    
+    // 2. 重量获取逻辑：优先读取前一页存入的真实重量，若无则尝试通过盒数计算，再无则给默认500g低保值
+    let totalWeight = parseInt(localStorage.getItem('peptides_cart_weight'));
+    let totalBoxes = parseInt(localStorage.getItem('peptides_cart_boxes'));
+
+    if (isNaN(totalWeight) || totalWeight <= 0) {
+        if (!isNaN(totalBoxes) && totalBoxes > 0) {
+            totalWeight = totalBoxes * 90; // 每盒 90g
+        } else {
+            totalWeight = 500; // 兜底默认值
+            totalBoxes = Math.ceil(500 / 90);
+        }
+    } else {
+        totalBoxes = Math.ceil(totalWeight / 90);
+    }
 
     const countryInput = document.getElementById('input-country');
+    const boxesDisplay = document.getElementById('display-boxes');
+    const weightDisplay = document.getElementById('display-weight');
     const shippingDisplay = document.getElementById('display-shipping');
     const subtotalDisplay = document.getElementById('display-subtotal');
     const totalDisplay = document.getElementById('display-total');
     
     const hiddenItems = document.getElementById('hidden-cart-items');
+    const hiddenBoxes = document.getElementById('hidden-total-boxes');
+    const hiddenWeight = document.getElementById('hidden-total-weight');
     const hiddenTotal = document.getElementById('hidden-grand-total');
 
     const cryptoSelector = document.getElementById('crypto-selector');
-    const panelUsdt = document.getElementById('panel-usdt');
+    const panelTrc20 = document.getElementById('panel-usdt-trc20');
+    const panelErc20 = document.getElementById('panel-usdt-erc20');
     const panelBtc = document.getElementById('panel-btc');
 
-    // 处理币种面板动态切换
+    // 加密货币面板切换
     cryptoSelector.addEventListener('change', function(e) {
+        panelTrc20.classList.remove('active');
+        panelErc20.classList.remove('active');
+        panelBtc.classList.remove('active');
+
         if (e.target.value === 'USDT-TRC20') {
-            panelUsdt.classList.add('active');
-            panelBtc.classList.remove('active');
+            panelTrc20.classList.add('active');
+        } else if (e.target.value === 'USDT-ERC20') {
+            panelErc20.classList.add('active');
         } else if (e.target.value === 'Bitcoin') {
             panelBtc.classList.add('active');
-            panelUsdt.classList.remove('active');
         }
     });
 
-    // 计算运费和总额
-    function calculateTotals(shippingValue) {
-        let grandTotal = cartSubtotal + shippingValue;
+    // 核心运费计算逻辑
+    function updateShippingAndTotals() {
+        let country = countryInput.value.trim().toLowerCase();
+        let shippingFee = 0;
+
+        // 判断是否为美国
+        let isUS = country.includes('united states') || country.includes('us') || country.includes('usa');
+
+        if (isUS) {
+            // 美国运费规则: 首重500g 80美金，每增加500g加10美金
+            if (totalWeight <= 500) {
+                shippingFee = 80;
+            } else {
+                let extraWeight = totalWeight - 500;
+                let extraUnits = Math.ceil(extraWeight / 500); 
+                shippingFee = 80 + (extraUnits * 10);
+            }
+        } else {
+            // 其他国家规则: 首重500g 60美金，每增加500g加10美金
+            if (totalWeight <= 500) {
+                shippingFee = 60;
+            } else {
+                let extraWeight = totalWeight - 500;
+                let extraUnits = Math.ceil(extraWeight / 500); 
+                shippingFee = 60 + (extraUnits * 10);
+            }
+        }
+
+        // 未输入国家时展示默认基础运费
+        if (country === "") {
+            shippingFee = (totalWeight <= 500) ? 60 : 60 + (Math.ceil((totalWeight - 500) / 500) * 10);
+        }
+
+        let grandTotal = cartSubtotal + shippingFee;
+
+        // 渲染到前端页面
         subtotalDisplay.innerText = '$' + cartSubtotal.toFixed(2);
-        shippingDisplay.innerText = '$' + shippingValue.toFixed(2);
+        boxesDisplay.innerText = totalBoxes + ' boxes';
+        weightDisplay.innerText = totalWeight + 'g';
+        shippingDisplay.innerText = '$' + shippingFee.toFixed(2);
         totalDisplay.innerText = '$' + grandTotal.toFixed(2);
         
+        // 赋值给 Formspree 隐藏表单域
+        hiddenBoxes.value = totalBoxes + ' boxes';
+        hiddenWeight.value = totalWeight + 'g';
         hiddenTotal.value = '$' + grandTotal.toFixed(2);
         hiddenItems.value = localStorage.getItem('peptides_cart') || "Standard Research Kit";
     }
 
-    // 智能识别国家并自动更新运费
-    countryInput.addEventListener('input', function(e) {
-        let country = e.target.value.trim().toLowerCase();
-        let currentShipping = defaultShipping;
-
-        if (country.includes('united states') || country.includes('us') || country.includes('usa')) {
-            currentShipping = 35.00; 
-        } else if (country.includes('china') || country.includes('中国')) {
-            currentShipping = 5.00;  
-        } else if (country.includes('dubai') || country.includes('uae') || country.includes('emirates')) {
-            currentShipping = 25.00; 
-        } else {
-            currentShipping = 30.00; 
-        }
-        calculateTotals(currentShipping);
-    });
-
-    calculateTotals(defaultShipping);
+    countryInput.addEventListener('input', updateShippingAndTotals);
+    updateShippingAndTotals();
 </script>
 
 </body>
