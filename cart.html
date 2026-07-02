@@ -197,6 +197,26 @@
         .crypto-panel { background-color:#fcf8e3; border:1px dashed #fbeed5; padding:12px; border-radius:6px; font-size:13px; color:#c09853; margin-top:15px; word-break:break-all; }
         .crypto-address { font-family:monospace; font-weight:bold; color:#333; margin-top:5px; background:#fff; padding:8px; text-align:center; border:1px solid #edd39e; font-size:14px; }
 
+        /* 文件上传框美化 */
+        .file-upload-wrapper {
+            margin-top: 12px;
+            position: relative;
+        }
+        .file-upload-input {
+            width: 100%;
+            padding: 8px;
+            background: #fff;
+            border: 1px dashed #bbb;
+            border-radius: 5px;
+            font-size: 13px;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+        .file-upload-input:hover {
+            border-color: var(--accent-color);
+            background: #fafafa;
+        }
+
         .checkout-submit-btn { 
             background-color: #25D366; 
             color: white; 
@@ -254,7 +274,6 @@
     </footer>
 
     <script>
-        // 加载数据并动态构建界面（保留并增强您的核心渲染逻辑）
         function loadCart() {
             let cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
             const container = document.getElementById('cart-content');
@@ -291,7 +310,7 @@
             cart.forEach((item, index) => {
                 let itemTotal = item.price * item.quantity;
                 subtotal += itemTotal;
-                totalBoxes += item.quantity; // 累加统计订单总盒数
+                totalBoxes += item.quantity;
                 
                 tableHTML += `
                     <tr>
@@ -328,14 +347,12 @@
             
             orderText += `\nTotal Subtotal: $${subtotal.toFixed(2)}\n\nPlease process my order layout.`;
             
-            // 计算隐藏重量（90g/盒）
             let totalWeight = totalBoxes * 90;
 
-            // 完美的账单右侧侧边栏：嵌入高级动态算费表单系统
-            // 提示：将 action 替换为您的 Formspree 账户表单ID即可
+            // 注意：表单加上了 enctype="multipart/form-data" 属性以支持图片文件上传
             let summaryHTML = `
                 <div class="cart-summary" style="max-width: 480px;">
-                    <form action="https://formspree.io/f/你的Formspree表单ID" method="POST" id="checkout-form">
+                    <form action="https://formspree.io/f/你的Formspree表单ID" method="POST" id="checkout-form" enctype="multipart/form-data">
                         
                         <input type="hidden" name="Purchased_Items" value="${encodeURIComponent(orderText)}">
                         <input type="hidden" name="Total_Boxes" value="${totalBoxes} Boxes">
@@ -376,6 +393,11 @@
                                 <label style="font-weight:600; display:block; margin-bottom:5px; color:#444;">Paste Payment TxID / Hash *</label>
                                 <input type="text" name="Crypto_TxID" required placeholder="Enter transaction hash" class="input-style">
                             </div>
+
+                            <div class="file-upload-wrapper">
+                                <label style="font-weight:600; display:block; margin-bottom:5px; color:#444;"><i class="fas fa-camera"></i> Upload Payment Screenshot *</label>
+                                <input type="file" name="Payment_Screenshot" accept="image/*" required class="file-upload-input">
+                            </div>
                         </div>
 
                         <button type="submit" class="checkout-submit-btn">
@@ -387,13 +409,11 @@
             
             container.innerHTML = tableHTML + summaryHTML;
 
-            // ================== 后置绑定事件联动算法 ==================
             const countryInput = document.getElementById('input-country');
             const cryptoSelector = document.getElementById('crypto-selector');
             const cryptoHint = document.getElementById('crypto-hint');
             const cryptoAddr = document.getElementById('crypto-addr');
 
-            // 加密货币多网络账户实时切换
             cryptoSelector.addEventListener('change', function(e) {
                 if (e.target.value === 'USDT-TRC20') {
                     cryptoHint.innerText = "Send equivalent value of USDT (TRC20) to address:";
@@ -407,43 +427,32 @@
                 }
             });
 
-            // 高阶自动运费计算引擎
             function calculateLiveShipping() {
                 let country = countryInput.value.trim().toLowerCase();
                 let shippingFee = 0;
                 let isUS = country.includes('united states') || country.includes('us') || country.includes('usa');
 
                 if (isUS) {
-                    // 美国规则：首重500g内80刀，续重每500g多10刀
                     shippingFee = (totalWeight <= 500) ? 80 : 80 + (Math.ceil((totalWeight - 500) / 500) * 10);
                 } else {
-                    // 其他国家规则：首重500g内60刀，续重每500g多10刀
                     shippingFee = (totalWeight <= 500) ? 60 : 60 + (Math.ceil((totalWeight - 500) / 500) * 10);
                 }
 
-                // 默认留空时显示基础国家规则运费
                 if (country === "") {
                     shippingFee = (totalWeight <= 500) ? 60 : 60 + (Math.ceil((totalWeight - 500) / 500) * 10);
                 }
 
                 let finalGrandTotal = subtotal + shippingFee;
 
-                // 实时无刷新渲染前端UI数据
                 document.getElementById('display-shipping').innerText = '$' + shippingFee.toFixed(2);
                 document.getElementById('display-total').innerText = '$' + finalGrandTotal.toFixed(2);
-
-                // 赋值封包给隐藏域提交邮件
                 document.getElementById('hidden-grand-total').value = '$' + finalGrandTotal.toFixed(2);
             }
 
-            // 监听输入，键盘每打一个国家字母就秒级重算运费
             countryInput.addEventListener('input', calculateLiveShipping);
-            
-            // 初始化计算一次
             calculateLiveShipping();
         }
         
-        // 增减商品数量
         function updateQty(index, change) {
             let cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
             cart[index].quantity += change;
@@ -456,7 +465,6 @@
             loadCart();
         }
         
-        // 彻底删除某款商品
         function deleteItem(index) {
             let cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
             cart.splice(index, 1);
@@ -464,7 +472,6 @@
             loadCart();
         }
         
-        // 执行初始化
         loadCart();
     </script>
 </body>
