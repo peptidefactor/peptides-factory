@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart | Peptides Factory</title>
+    <title>Secure Crypto Checkout | Peptides Factory</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
@@ -14,349 +14,204 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0; padding: 0;
+            background-color: var(--bg-light);
             color: var(--text-dark);
-            background-color: #fff;
+            margin: 0; padding: 20px;
         }
-
-        header {
+        .checkout-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .header-back {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 5%; 
-            border-bottom: 1px solid #eee;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            background: #fff;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
         }
-        .logo-img {
-            height: 90px; 
-            width: auto;
-            object-fit: contain;
-        }
-        nav a {
-            margin: 0 15px;
+        .header-back a {
+            color: var(--primary-color);
             text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 500;
-            transition: 0.3s;
-        }
-        nav a:hover { color: var(--accent-color); }
-
-        .cart-container { 
-            max-width: 1100px; 
-            margin: 50px auto; 
-            padding: 0 20px; 
-            min-height: 400px;
-        }
-        .cart-title { 
-            color: var(--primary-color); 
-            font-size: 32px; 
-            margin-bottom: 30px; 
-            border-bottom: 2px solid #eee; 
-            padding-bottom: 10px; 
-        }
-
-        .cart-table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-bottom: 40px; 
-        }
-        .cart-table th { 
-            background-color: var(--primary-color); 
-            color: white; 
-            padding: 15px; 
-            text-align: left; 
-            font-size: 16px;
-        }
-        .cart-table td { 
-            padding: 20px 15px; 
-            border-bottom: 1px solid #eee; 
-            vertical-align: middle; 
-        }
-        
-        .item-image { 
-            width: 70px; 
-            height: 70px; 
-            object-fit: contain; 
-            background: #f0f0f0; 
-            border-radius: 6px; 
-            padding: 5px; 
-        }
-        .item-details { 
-            display: flex; 
-            align-items: center; 
-            gap: 15px; 
-        }
-        .item-name { 
-            font-weight: bold; 
-            color: var(--primary-color); 
-            font-size: 16px; 
-        }
-        .item-spec { 
-            color: #666; 
-            font-size: 14px; 
-            margin-top: 4px; 
-        }
-
-        .qty-control {
-            display: flex;
-            align-items: center;
-        }
-        .qty-btn { 
-            background: #eee; 
-            border: none; 
-            padding: 5px 12px; 
-            cursor: pointer; 
-            font-size: 16px; 
-            border-radius: 4px; 
             font-weight: bold;
-            transition: 0.2s;
         }
-        .qty-btn:hover { background: #ddd; }
-        .qty-input { 
-            width: 40px; 
-            text-align: center; 
-            border: 1px solid #ddd; 
-            padding: 5px; 
-            margin: 0 5px; 
-            border-radius: 4px; 
-            font-size: 16px; 
-        }
+        h2 { color: var(--primary-color); border-left: 4px solid var(--accent-color); padding-left: 10px; font-size: 22px; margin-top: 30px; }
+        
+        /* 表单样式 */
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--accent-color); outline: none; }
+        
+        /* 费用明细 */
+        .summary-box { background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 16px; }
+        .total-row { font-size: 20px; font-weight: bold; color: #d9534f; border-top: 1px solid #ddd; padding-top: 10px; }
+        
+        /* 账户面板共通样式 */
+        .payment-method-panel { display: none; background-color: #fcf8e3; border: 1px dashed #fbeed5; padding: 20px; border-radius: 8px; line-height: 1.6; margin-bottom: 25px; }
+        .payment-method-panel.active { display: block; }
+        .payment-method-panel p { margin: 6px 0; font-size: 15px; color: #c09853; }
+        .payment-method-panel strong { color: #a47e3c; }
+        .crypto-address-box { background: #fff; padding: 12px; border: 1px solid #edd39e; border-radius: 6px; font-family: monospace; font-size: 14px; word-break: break-all; margin: 15px 0; font-weight: bold; color: #333; text-align: center; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
+        .notice-text { color: #d9534f; font-size: 13px; font-weight: bold; margin-top: 10px; }
 
-        .delete-btn { 
-            background: none; 
-            border: none; 
-            color: #ff4d4d; 
-            cursor: pointer; 
-            font-size: 18px; 
-            transition: 0.3s; 
-        }
-        .delete-btn:hover { 
-            color: #cc0000; 
-            transform: scale(1.1); 
-        }
-
-        .cart-summary { 
-            background: var(--bg-light); 
-            padding: 30px; 
-            border-radius: 12px; 
-            max-width: 400px; 
-            margin-left: auto; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
-        }
-        .summary-row { 
-            display: flex; 
-            justify-content: space-between; 
-            margin-bottom: 15px; 
-            font-size: 16px; 
-        }
-        .summary-total { 
-            font-size: 22px; 
-            font-weight: bold; 
-            color: var(--primary-color); 
-            border-top: 2px solid #ddd; 
-            padding-top: 15px; 
-            margin-top: 15px; 
-        }
-
-        .checkout-btn { 
-            background-color: #25D366; 
-            color: white; 
-            width: 100%; 
-            padding: 15px; 
-            border: none; 
-            border-radius: 6px; 
-            font-size: 18px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 10px; 
-            transition: 0.3s; 
-            text-decoration: none; 
-            box-sizing: border-box; 
-            margin-top: 20px; 
-        }
-        .checkout-btn:hover { 
-            background-color: #1ebd59; 
-            transform: translateY(-2px); 
-            box-shadow: 0 5px 15px rgba(37,211,102,0.3);
-        }
-
-        .empty-msg { 
-            text-align: center; 
-            padding: 60px 0; 
-        }
-        .empty-msg i { 
-            font-size: 60px; 
-            color: #ccc; 
-            margin-bottom: 20px; 
-        }
-        .empty-msg p { 
-            font-size: 18px; 
-            color: #666; 
-            margin-bottom: 25px; 
-        }
-        .shop-link { 
-            display: inline-block; 
-            background-color: var(--primary-color); 
-            color: white; 
-            padding: 12px 30px; 
-            text-decoration: none; 
-            border-radius: 5px; 
-            font-weight: bold; 
-            transition: 0.3s; 
-        }
-        .shop-link:hover { 
-            background-color: var(--accent-color); 
-            color: var(--primary-color); 
-        }
-
-        footer { 
-            background-color: #0d1117; 
-            color: #9ca3af; 
-            padding: 40px 5% 20px; 
-            font-size: 14px; 
-            text-align: center; 
-            margin-top: 100px; 
-        }
+        .submit-btn { width: 100%; background: var(--primary-color); color: white; padding: 15px; border: none; border-radius: 6px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .submit-btn:hover { background: var(--accent-color); color: var(--primary-color); }
     </style>
 </head>
 <body>
 
-    <header>
-        <a href="index.html" class="logo-container">
-            <img src="logo.png" alt="Logo" class="logo-img">
-        </a>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="index.html#shop">Shop</a>
-        </nav>
-    </header>
-
-    <div class="cart-container">
-        <h1 class="cart-title">Your Shopping Cart</h1>
-        <div id="cart-content"></div>
+<div class="checkout-container">
+    <div class="header-back">
+        <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Shop</a>
+        <span style="font-weight: bold; color: var(--primary-color);">SECURE CRYPTO CHECKOUT</span>
     </div>
 
-    <footer>
-        <div>Copyright © 2026 Peptides Factory. All Rights Reserved.</div>
-    </footer>
+    <form action="https://formspree.io/f/你的Formspree表单ID" method="POST" id="checkout-form">
+        
+        <input type="hidden" name="Items_In_Cart" id="hidden-cart-items">
+        <input type="hidden" name="Final_Grand_Total" id="hidden-grand-total">
 
-    <script>
-        // Load data and dynamically build the interface
-        function loadCart() {
-            let cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
-            const container = document.getElementById('cart-content');
-            
-            if (cart.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-msg">
-                        <i class="fas fa-shopping-basket"></i>
-                        <p>Your shopping cart is empty.</p>
-                        <a href="index.html#shop" class="shop-link">Return to Shop</a>
-                    </div>
-                `;
-                return;
-            }
-            
-            let tableHTML = `
-                <table class="cart-table">
-                    <thead>
-                        <tr>
-                            <th>Product</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Total</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-            
-            let subtotal = 0;
-            let orderText = "Hi Peptides Factory, I would like to purchase the following items:\n\n";
-            
-            cart.forEach((item, index) => {
-                let itemTotal = item.price * item.quantity;
-                subtotal += itemTotal;
-                
-                tableHTML += `
-                    <tr>
-                        <td>
-                            <div class="item-details">
-                                <img src="${item.image}" alt="${item.name}" class="item-image">
-                                <div>
-                                    <div class="item-name">${item.name}</div>
-                                    <div class="item-spec">Specification: ${item.spec}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>$${item.price.toFixed(2)}</td>
-                        <td>
-                            <div class="qty-control">
-                                <button class="qty-btn" onclick="updateQty(${index}, -1)">-</button>
-                                <input type="text" class="qty-input" value="${item.quantity}" readonly>
-                                <button class="qty-btn" onclick="updateQty(${index}, 1)">+</button>
-                            </div>
-                        </td>
-                        <td>$${itemTotal.toFixed(2)}</td>
-                        <td>
-                            <button class="delete-btn" onclick="deleteItem(${index})">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-                
-                orderText += `- ${item.name} (${item.spec}) x${item.quantity} -> $${itemTotal.toFixed(2)}\n`;
-            });
-            
-            tableHTML += `</tbody></table>`;
-            
-            orderText += `\nTotal Subtotal: $${subtotal.toFixed(2)}\n\nPlease process my order layout.`;
-            let whatsappUrl = `https://wa.me/85252638529?text=${encodeURIComponent(orderText)}`;
-            
-            let summaryHTML = `
-                <div class="cart-summary">
-                    <div class="summary-row"><span>Subtotal:</span><span>$${subtotal.toFixed(2)}</span></div>
-                    <div class="summary-row"><span>Shipping:</span><span style="color:#25D366; font-weight:bold;">Free Stealth Shipping</span></div>
-                    <div class="summary-row summary-total"><span>Total:</span><span>$${subtotal.toFixed(2)}</span></div>
-                    <a href="${whatsappUrl}" target="_blank" class="checkout-btn">
-                        <i class="fab fa-whatsapp" style="font-size:22px;"></i> Proceed to Checkout
-                    </a>
-                </div>
-            `;
-            
-            container.innerHTML = tableHTML + summaryHTML;
+        <h2>1. Shipping Address & Contact</h2>
+        <div class="form-group">
+            <label>1. Full Name *</label>
+            <input type="text" name="Customer_Name" required placeholder="John Doe">
+        </div>
+        <div class="form-group">
+            <label>2. Detailed Address *</label>
+            <input type="text" name="Shipping_Address" required placeholder="Street, Apartment, Suite, Unit">
+        </div>
+        <div class="form-group">
+            <label>3. Zip / Postal Code *</label>
+            <input type="text" name="Zip_Code" required placeholder="e.g. 90001">
+        </div>
+        <div class="form-group">
+            <label>4. Phone Number *</label>
+            <input type="tel" name="Phone_Number" required placeholder="e.g. +1 234 567 890">
+        </div>
+        <div class="form-group">
+            <label>5. Country * (Type to automatically calculate shipping)</label>
+            <input type="text" name="Country" id="input-country" required placeholder="e.g. United States, United Kingdom, Dubai">
+        </div>
+        <div class="form-group">
+            <label>6. Email Address *</label>
+            <input type="email" name="Email_Address" required placeholder="yourname@example.com">
+        </div>
+
+        <h2>2. Order Summary & Shipping</h2>
+        <div class="summary-box">
+            <div class="summary-row">
+                <span>Products Subtotal:</span>
+                <span id="display-subtotal">$0.00</span>
+            </div>
+            <div class="summary-row">
+                <span>Stealth Shipping Fee:</span>
+                <span id="display-shipping">$30.00</span>
+            </div>
+            <div class="summary-row total-row">
+                <span>Grand Total:</span>
+                <span id="display-total">$30.00</span>
+            </div>
+        </div>
+
+        <h2>3. Select Cryptocurrency</h2>
+        <div class="form-group">
+            <label>Choose your preferred coin:</label>
+            <select name="Chosen_Crypto" id="crypto-selector">
+                <option value="USDT-TRC20">USDT (TRC20 Network) - Recommended</option>
+                <option value="Bitcoin">Bitcoin (BTC - Taproot)</option>
+            </select>
+        </div>
+
+        <div id="panel-usdt" class="payment-method-panel active">
+            <p>Please send the equivalent value of the <strong style="color:red;">Grand Total (1 USD = 1 USDT)</strong> to our official USDT address:</p>
+            <div class="crypto-address-box">TB9Cr786LZDYdYNqYHZGExbx4oGYqGMiWj</div>
+            <p style="font-size:12px; opacity:0.8;"><i class="fas fa-info-circle"></i> <strong>CRITICAL:</strong> Only send <strong>USDT</strong> via the <strong>TRON / TRC20</strong> network. Sending via any other network will result in permanent loss.</p>
+            <div class="notice-text">
+                <i class="fas fa-exclamation-triangle"></i> NOTICE: Once you completed the transfer, please fill in the TxID below and click "Submit Order Details".
+            </div>
+        </div>
+
+        <div id="panel-btc" class="payment-method-panel">
+            <p>Please send the equivalent value of the <strong style="color:red;">Grand Total</strong> to our official BTC address (Taproot network):</p>
+            <div class="crypto-address-box">bc1pqcvdkrk3xre984068cr79ekxm7g0trf9cnqasf3jkp8k4ar47x8q9hc3zg</div>
+            <p style="font-size:12px; opacity:0.8;"><i class="fas fa-info-circle"></i> Ensure you are using the Bitcoin mainnet (P2TR / Taproot compatible wallet) to make the transfer.</p>
+            <div class="notice-text">
+                <i class="fas fa-exclamation-triangle"></i> NOTICE: Once you completed the transfer, please fill in the TxID below and click "Submit Order Details".
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 25px;">
+            <label>Paste Transaction ID (TxID) / Payment Hash *</label>
+            <input type="text" name="Crypto_TxID" required placeholder="Paste your 64-character transaction hash here">
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Order & Shipping Details</button>
+    </form>
+</div>
+
+<script>
+    let cartSubtotal = parseFloat(localStorage.getItem('peptides_cart_total')) || 200.00;
+    let defaultShipping = 30.00;
+
+    const countryInput = document.getElementById('input-country');
+    const shippingDisplay = document.getElementById('display-shipping');
+    const subtotalDisplay = document.getElementById('display-subtotal');
+    const totalDisplay = document.getElementById('display-total');
+    
+    const hiddenItems = document.getElementById('hidden-cart-items');
+    const hiddenTotal = document.getElementById('hidden-grand-total');
+
+    const cryptoSelector = document.getElementById('crypto-selector');
+    const panelUsdt = document.getElementById('panel-usdt');
+    const panelBtc = document.getElementById('panel-btc');
+
+    // 处理币种面板动态切换
+    cryptoSelector.addEventListener('change', function(e) {
+        if (e.target.value === 'USDT-TRC20') {
+            panelUsdt.classList.add('active');
+            panelBtc.classList.remove('active');
+        } else if (e.target.value === 'Bitcoin') {
+            panelBtc.classList.add('active');
+            panelUsdt.classList.remove('active');
         }
+    });
+
+    // 计算运费和总额
+    function calculateTotals(shippingValue) {
+        let grandTotal = cartSubtotal + shippingValue;
+        subtotalDisplay.innerText = '$' + cartSubtotal.toFixed(2);
+        shippingDisplay.innerText = '$' + shippingValue.toFixed(2);
+        totalDisplay.innerText = '$' + grandTotal.toFixed(2);
         
-        // This function explicitly handles changing quantities (+1 or -1)
-        function updateQty(index, change) {
-            let cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
-            cart[index].quantity += change;
-            
-            if (cart[index].quantity <= 0) {
-                cart.splice(index, 1);
-            }
-            
-            localStorage.setItem('peptides_cart', JSON.stringify(cart));
-            loadCart(); // re-render layout seamlessly
+        hiddenTotal.value = '$' + grandTotal.toFixed(2);
+        hiddenItems.value = localStorage.getItem('peptides_cart') || "Standard Research Kit";
+    }
+
+    // 智能识别国家并自动更新运费
+    countryInput.addEventListener('input', function(e) {
+        let country = e.target.value.trim().toLowerCase();
+        let currentShipping = defaultShipping;
+
+        if (country.includes('united states') || country.includes('us') || country.includes('usa')) {
+            currentShipping = 35.00; 
+        } else if (country.includes('china') || country.includes('中国')) {
+            currentShipping = 5.00;  
+        } else if (country.includes('dubai') || country.includes('uae') || country.includes('emirates')) {
+            currentShipping = 25.00; 
+        } else {
+            currentShipping = 30.00; 
         }
-        
-        // This function handles deleting an item entirely
-        function deleteItem(index) {
-            let cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
-            cart.splice(index, 1);
-            localStorage.setItem('peptides_cart', JSON.stringify(cart));
-            loadCart();
-        }
-        
-        loadCart();
-    </script>
+        calculateTotals(currentShipping);
+    });
+
+    calculateTotals(defaultShipping);
+</script>
+
 </body>
 </html>
