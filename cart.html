@@ -191,13 +191,11 @@
             color: var(--primary-color); 
         }
 
-        /* 结算扩展增强样式 */
         .input-style { width:100%; padding:11px; border:1px solid #ccc; border-radius:5px; box-sizing:border-box; font-size:14px; }
         .input-style:focus { border-color: var(--accent-color); outline:none; }
         .crypto-panel { background-color:#fcf8e3; border:1px dashed #fbeed5; padding:12px; border-radius:6px; font-size:13px; color:#c09853; margin-top:15px; word-break:break-all; }
         .crypto-address { font-family:monospace; font-weight:bold; color:#333; margin-top:5px; background:#fff; padding:8px; text-align:center; border:1px solid #edd39e; font-size:14px; }
 
-        /* 文件上传框美化 */
         .file-upload-wrapper {
             margin-top: 12px;
             position: relative;
@@ -349,10 +347,10 @@
             
             let totalWeight = totalBoxes * 90;
 
-            // 注意：表单加上了 enctype="multipart/form-data" 属性以支持图片文件上传
+            // 【已修改】：直接使用纯前端 GET 方法，提交后自动本地跳转到 thank-you.html
             let summaryHTML = `
                 <div class="cart-summary" style="max-width: 480px;">
-                    <form action="https://formspree.io/f/你的Formspree表单ID" method="POST" id="checkout-form" enctype="multipart/form-data">
+                    <form action="thank-you.html" method="GET" id="checkout-form">
                         
                         <input type="hidden" name="Purchased_Items" value="${encodeURIComponent(orderText)}">
                         <input type="hidden" name="Total_Boxes" value="${totalBoxes} Boxes">
@@ -362,117 +360,4 @@
                         <div class="summary-row"><span>Products Subtotal:</span><span>$${subtotal.toFixed(2)}</span></div>
                         
                         <div style="background:#fff; padding:15px; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:20px; font-size:14px; line-height:1.7; text-align:left;">
-                            <h4 style="margin:0 0 10px 0; color:var(--primary-color); font-size:15px;"><i class="fas fa-truck"></i> Shipping Information</h4>
-                            <div style="margin-bottom:10px;"><input type="text" name="Customer_Name" required placeholder="Full Name" class="input-style"></div>
-                            <div style="margin-bottom:10px;"><input type="text" name="Shipping_Address" required placeholder="Detailed Shipping Address" class="input-style"></div>
-                            <div style="margin-bottom:10px;"><input type="text" name="Zip_Code" required placeholder="Zip / Postal Code" class="input-style"></div>
-                            <div style="margin-bottom:10px;"><input type="tel" name="Phone_Number" required placeholder="Phone Number" class="input-style"></div>
-                            <div style="margin-bottom:10px;"><input type="text" name="Country" id="input-country" required placeholder="Country (Type to calculate shipping)" class="input-style"></div>
-                            <div><input type="email" name="Email_Address" required placeholder="Email Address" class="input-style"></div>
-                        </div>
-
-                        <div class="summary-row" style="color:#666; font-size:14px;"><span>Total Quantity:</span><span>${totalBoxes} boxes</span></div>
-                        <div class="summary-row" style="color:#666; font-size:14px;"><span>Calculated Net Weight:</span><span>${totalWeight}g</span></div>
-                        <div class="summary-row"><span>Stealth Shipping Fee:</span><span id="display-shipping">$0.00</span></div>
-                        <div class="summary-row summary-total"><span>Grand Total:</span><span id="display-total">$0.00</span></div>
-                        
-                        <div style="background:#fff; padding:15px; border:1px solid #e5e7eb; border-radius:8px; margin-top:20px; text-align:left; font-size:14px;">
-                            <h4 style="margin:0 0 10px 0; color:var(--primary-color); font-size:15px;"><i class="fab fa-bitcoin"></i> Payment Crypto Network</h4>
-                            <select name="Chosen_Crypto" id="crypto-selector" class="input-style">
-                                <option value="USDT-TRC20">USDT (TRC20 Network) - Low Fee / Recommended</option>
-                                <option value="USDT-ERC20">USDT (ERC20 Network)</option>
-                                <option value="Bitcoin">Bitcoin (BTC)</option>
-                            </select>
-
-                            <div class="crypto-panel">
-                                <span id="crypto-hint">Send equivalent value of USDT (TRC20) to address:</span>
-                                <div id="crypto-addr" class="crypto-address">TB9Cr786LZDYdYNqYHZGExbx4oGYqGMiWj</div>
-                            </div>
-                            
-                            <div style="margin-top:12px;">
-                                <label style="font-weight:600; display:block; margin-bottom:5px; color:#444;">Paste Payment TxID / Hash *</label>
-                                <input type="text" name="Crypto_TxID" required placeholder="Enter transaction hash" class="input-style">
-                            </div>
-
-                            <div class="file-upload-wrapper">
-                                <label style="font-weight:600; display:block; margin-bottom:5px; color:#444;"><i class="fas fa-camera"></i> Upload Payment Screenshot *</label>
-                                <input type="file" name="Payment_Screenshot" accept="image/*" required class="file-upload-input">
-                            </div>
-                        </div>
-
-                        <button type="submit" class="checkout-submit-btn">
-                            <i class="fas fa-lock"></i> Submit Secure Order
-                        </button>
-                    </form>
-                </div>
-            `;
-            
-            container.innerHTML = tableHTML + summaryHTML;
-
-            const countryInput = document.getElementById('input-country');
-            const cryptoSelector = document.getElementById('crypto-selector');
-            const cryptoHint = document.getElementById('crypto-hint');
-            const cryptoAddr = document.getElementById('crypto-addr');
-
-            cryptoSelector.addEventListener('change', function(e) {
-                if (e.target.value === 'USDT-TRC20') {
-                    cryptoHint.innerText = "Send equivalent value of USDT (TRC20) to address:";
-                    cryptoAddr.innerText = "TB9Cr786LZDYdYNqYHZGExbx4oGYqGMiWj";
-                } else if (e.target.value === 'USDT-ERC20') {
-                    cryptoHint.innerText = "Send equivalent value of USDT (ERC20) to address:";
-                    cryptoAddr.innerText = "0xFC8e55dc3C29e2A5895dFC96A9B0703684518574";
-                } else if (e.target.value === 'Bitcoin') {
-                    cryptoHint.innerText = "Send equivalent value of BTC to official address:";
-                    cryptoAddr.innerText = "bc1pqcvdkrk3xre984068cr79ekxm7g0trf9cnqasf3jkp8k4ar47x8q9hc3zg";
-                }
-            });
-
-            function calculateLiveShipping() {
-                let country = countryInput.value.trim().toLowerCase();
-                let shippingFee = 0;
-                let isUS = country.includes('united states') || country.includes('us') || country.includes('usa');
-
-                if (isUS) {
-                    shippingFee = (totalWeight <= 500) ? 80 : 80 + (Math.ceil((totalWeight - 500) / 500) * 10);
-                } else {
-                    shippingFee = (totalWeight <= 500) ? 60 : 60 + (Math.ceil((totalWeight - 500) / 500) * 10);
-                }
-
-                if (country === "") {
-                    shippingFee = (totalWeight <= 500) ? 60 : 60 + (Math.ceil((totalWeight - 500) / 500) * 10);
-                }
-
-                let finalGrandTotal = subtotal + shippingFee;
-
-                document.getElementById('display-shipping').innerText = '$' + shippingFee.toFixed(2);
-                document.getElementById('display-total').innerText = '$' + finalGrandTotal.toFixed(2);
-                document.getElementById('hidden-grand-total').value = '$' + finalGrandTotal.toFixed(2);
-            }
-
-            countryInput.addEventListener('input', calculateLiveShipping);
-            calculateLiveShipping();
-        }
-        
-        function updateQty(index, change) {
-            let cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
-            cart[index].quantity += change;
-            
-            if (cart[index].quantity <= 0) {
-                cart.splice(index, 1);
-            }
-            
-            localStorage.setItem('peptides_cart', JSON.stringify(cart));
-            loadCart();
-        }
-        
-        function deleteItem(index) {
-            let cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
-            cart.splice(index, 1);
-            localStorage.setItem('peptides_cart', JSON.stringify(cart));
-            loadCart();
-        }
-        
-        loadCart();
-    </script>
-</body>
-</html>
+                            <h4 style="margin:0 0 10px 0; color:var(--primary-color); font-size:15px;"><i class="fas fa-truck">
