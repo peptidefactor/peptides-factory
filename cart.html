@@ -347,16 +347,11 @@
             
             let totalWeight = totalBoxes * 90;
 
-            // 【已修改】：直接使用纯前端 GET 方法，提交后自动本地跳转到 thank-you.html
+            // 这里移除 action，完全交给下方的 JavaScript 接管拦截，防止原生 HTML 提交把数据刷没
             let summaryHTML = `
                 <div class="cart-summary" style="max-width: 480px;">
-                    <form action="thank-you.html" method="GET" id="checkout-form">
+                    <form id="checkout-form" onsubmit="return false;">
                         
-                        <input type="hidden" name="Purchased_Items" value="${encodeURIComponent(orderText)}">
-                        <input type="hidden" name="Total_Boxes" value="${totalBoxes} Boxes">
-                        <input type="hidden" name="Total_Weight" id="hidden-total-weight" value="${totalWeight}g">
-                        <input type="hidden" name="Final_Grand_Total" id="hidden-grand-total">
-
                         <div class="summary-row"><span>Products Subtotal:</span><span>$${subtotal.toFixed(2)}</span></div>
                         
                         <div style="background:#fff; padding:15px; border:1px solid #e5e7eb; border-radius:8px; margin-bottom:20px; font-size:14px; line-height:1.7; text-align:left;">
@@ -413,9 +408,11 @@
             const cryptoAddr = document.getElementById('crypto-addr');
             const checkoutForm = document.getElementById('checkout-form');
 
-            // 【已添加】：在点击提交时，拦截并清空浏览器购物车数据，防止跳转到感谢页后购物车里还有东西
-            checkoutForm.addEventListener('submit', function() {
-                localStorage.removeItem('peptides_cart');
+            // 核心修复：用标准的 JS 事件监听，等表单验证通过后再清除缓存并执行纯前端跳转
+            checkoutForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // 完全阻止默认的浏览器刷新与拼接参数行为
+                localStorage.removeItem('peptides_cart'); // 安全清空购物车缓存
+                window.location.href = 'thank-you.html'; // 干净利落地执行本地网页跳转
             });
 
             cryptoSelector.addEventListener('change', function(e) {
@@ -450,7 +447,6 @@
 
                 document.getElementById('display-shipping').innerText = '$' + shippingFee.toFixed(2);
                 document.getElementById('display-total').innerText = '$' + finalGrandTotal.toFixed(2);
-                document.getElementById('hidden-grand-total').value = '$' + finalGrandTotal.toFixed(2);
             }
 
             countryInput.addEventListener('input', calculateLiveShipping);
