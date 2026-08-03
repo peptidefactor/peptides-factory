@@ -70,10 +70,54 @@
         .tg-color:hover { background-color: #229ED9; }
         .wa-color { background-color: #25D366; }
         .wa-color:hover { background-color: #20BA5A; }
+
+        /* ==================== 1. 年龄验证弹窗 CSS ==================== */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 37, 64, 0.92);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 99999; backdrop-filter: blur(8px);
+        }
+        .modal-card {
+            background: #fff; padding: 40px 30px; border-radius: 12px;
+            max-width: 460px; width: 90%; text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-top: 6px solid var(--accent-color);
+        }
+        .modal-card h2 { color: var(--primary-color); font-size: 24px; margin-bottom: 15px; }
+        .modal-card p { font-size: 14px; color: #666; margin-bottom: 25px; line-height: 1.6; }
+        .modal-btns { display: flex; gap: 15px; justify-content: center; }
+        .modal-btn-confirm { background-color: var(--primary-color); color: #fff; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; flex: 1; transition: 0.3s; }
+        .modal-btn-confirm:hover { background-color: var(--accent-color); color: var(--primary-color); }
+        .modal-btn-deny { background-color: #e5e7eb; color: #4b5563; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; flex: 1; transition: 0.3s; }
+        .modal-btn-deny:hover { background-color: #d1d5db; }
+
+        /* ==================== 2. COA 检测报告大图弹窗 CSS ==================== */
+        .lightbox-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); z-index: 99998;
+            align-items: center; justify-content: center; backdrop-filter: blur(5px);
+        }
+        .lightbox-img { max-width: 90%; max-height: 90vh; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .lightbox-close {
+            position: absolute; top: 20px; right: 30px; color: #fff; font-size: 35px;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .lightbox-close:hover { color: var(--accent-color); }
+        .report-preview-box { cursor: pointer; position: relative; }
+        .report-preview-box::after {
+            content: "\f00e  Click to Preview"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 37, 64, 0.6); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: 0.3s; font-size: 16px;
+        }
+        .report-preview-box:hover::after { opacity: 1; }
     </style>
 </head>
 <body>
 
+    <!-- 顶栏 -->
     <div class="announcement-bar">
         📢 Welcome to Peptides Factory! Join Our Official Groups for Real-Time Updates & Special Offers.
         <a href="https://t.me/PeptidesIris" target="_blank" style="margin-left: 10px; text-decoration: underline;"><i class="fab fa-telegram-plane"></i> Join Telegram Channel</a> 
@@ -81,47 +125,47 @@
         <a href="https://chat.whatsapp.com/EhGJqCLZMjFJlta7xbKRNd" target="_blank" style="text-decoration: underline;"><i class="fab fa-whatsapp"></i> Join WhatsApp Group</a>
     </div>
 
+    <!-- 导航栏 -->
     <header>
         <a href="#home" class="logo-container"><img src="logo.png" alt="Logo" class="logo-img"></a>
         <nav>
             <a href="#home" style="transition: 0.3s;">Home</a>
             <a href="#shop" style="transition: 0.3s;">Shop</a>
             <a href="#lab" style="transition: 0.3s;">Lab Reports</a>
-            <!-- 核心修改：让 About Us 能够准确锚定到底部介绍的 id="about" 区域 -->
             <a href="#about" style="transition: 0.3s;">About Us</a>
-            <!-- 核心修改：让 Contact Us 能够准确锚定到底部页脚的 id="contact" 区域 -->
             <a href="#contact" style="transition: 0.3s;">Contact Us</a>
             <a href="cart.html" id="nav-cart" style="transition: 0.3s;"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count" id="cart-count">0</span></a>
         </nav>
     </header>
     
+    <!-- Hero 区块 -->
     <section class="hero-section" id="home">
         <h1>Premium Research Peptides Manufacturer</h1>
         <p>Laboratory Grade Purity | Direct Factory Pricing | Stealth Worldwide Shipping & Flexible Kits</p>
     </section>
 
+    <!-- 产品展示区 -->
     <section class="container" id="shop">
         <h2 class="section-title">Highest Quality Research Peptides</h2>
         <div class="product-grid" id="main-product-grid"></div>
     </section>
 
-   <section class="features-section" id="lab">
+    <!-- COA 实验室检测报告区 -->
+    <section class="features-section" id="lab">
         <h2 class="section-title">Verified Laboratory Test Reports</h2>
         
         <div style="max-width: 1200px; margin: 0 auto 50px auto; display: block; text-align: center;">
-            <p style="color: #666; margin-bottom: 25px; font-size: 16px;">We test every batch to ensure 99%+ purity. Click to view our latest verified HPLC & MS certificates.</p>
+            <p style="color: #666; margin-bottom: 25px; font-size: 16px;">We test every batch to ensure 99%+ purity. Click to view full HPLC & MS certificates.</p>
             
             <div style="display: block; text-align: center; font-size: 0;">
-                <div style="display: inline-block; width: 45%; min-width: 280px; max-width: 450px; margin: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 8px; overflow: hidden; background: #fff; vertical-align: top;">
-                    <a href="report1.jpg" target="_blank" title="View Full Report">
-                        <img src="report1.jpg" alt="HPLC Test Report" style="width: 100%; height: auto; display: block; transition: 0.3s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                    </a>
+                <!-- COA 图 1 -->
+                <div class="report-preview-box" onclick="openLightbox('report1.jpg')" style="display: inline-block; width: 45%; min-width: 280px; max-width: 450px; margin: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 8px; overflow: hidden; background: #fff; vertical-align: top;">
+                    <img src="report1.jpg" alt="HPLC Test Report" style="width: 100%; height: auto; display: block;">
                 </div>
 
-                <div style="display: inline-block; width: 45%; min-width: 280px; max-width: 450px; margin: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 8px; overflow: hidden; background: #fff; vertical-align: top;">
-                    <a href="report2.jpg" target="_blank" title="View Full Report">
-                        <img src="report2.jpg" alt="Mass Spectrometry Report" style="width: 100%; height: auto; display: block; transition: 0.3s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-                    </a>
+                <!-- COA 图 2 -->
+                <div class="report-preview-box" onclick="openLightbox('report2.jpg')" style="display: inline-block; width: 45%; min-width: 280px; max-width: 450px; margin: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 8px; overflow: hidden; background: #fff; vertical-align: top;">
+                    <img src="report2.jpg" alt="Mass Spectrometry Report" style="width: 100%; height: auto; display: block;">
                 </div>
             </div>
         </div>
@@ -143,6 +187,7 @@
         </div>
     </section>
 
+    <!-- 页脚 -->
     <footer id="contact">
         <div class="footer-content">
             <div class="footer-column" id="about">
@@ -170,6 +215,7 @@
         </div>
     </footer>
 
+    <!-- 浮动社交联系按钮 -->
     <div class="social-contact-wrapper">
         <a href="https://t.me/PeptidesIris" class="social-btn tg-color" target="_blank">
             <i class="fab fa-telegram-plane"></i>
@@ -179,8 +225,27 @@
         </a>
     </div>
 
+    <!-- ==================== 1. 年龄验证弹窗 HTML ==================== -->
+    <div class="modal-overlay" id="ageModal">
+        <div class="modal-card">
+            <h2><i class="fas fa-user-shield" style="color: var(--accent-color);"></i> Age Verification Required</h2>
+            <p>This website contains restricted high-purity research compounds. You must be at least 21 years of age and agree that all products are strictly for laboratory research purposes only.</p>
+            <div class="modal-btns">
+                <button class="modal-btn-deny" onclick="denyAge()">I am under 21</button>
+                <button class="modal-btn-confirm" onclick="acceptAge()">I am 21 or older</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== 2. COA 报告预览弹窗 HTML ==================== -->
+    <div class="lightbox-overlay" id="lightboxModal" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-img" id="lightboxImg" src="" alt="Lab Test Certificate">
+    </div>
+
     <script src="data.js"></script>
     <script>
+        // 计算价格范围
         function calculatePriceRange(product) {
             if (!product || !product.variants || product.variants.length === 0) return "Contact Price";
             var prices = product.variants.map(function(v) { return v.price; });
@@ -189,7 +254,7 @@
             return min === max ? "$" + min.toFixed(2) : "$" + min.toFixed(2) + " – $" + max.toFixed(2);
         }
 
-        // 优化8：按钮改回更柔和、包容性更强的 “Select Options” 或 “View Details”，兼顾零售加购与批发询盘
+        // 渲染产品列表
         function renderProductsList() {
             var grid = document.getElementById('main-product-grid');
             if (!grid) return;
@@ -221,6 +286,7 @@
             });
         }
 
+        // 更新购物车数字
         function updateCartCount() {
             try {
                 var cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
@@ -232,7 +298,39 @@
             }
         }
 
+        /* ==================== 年龄验证 JS 逻辑 ==================== */
+        function acceptAge() {
+            localStorage.setItem('peptides_age_verified', 'true');
+            document.getElementById('ageModal').style.display = 'none';
+        }
+
+        function denyAge() {
+            window.location.href = 'https://www.google.com';
+        }
+
+        function checkAgeVerification() {
+            if (localStorage.getItem('peptides_age_verified') === 'true') {
+                document.getElementById('ageModal').style.display = 'none';
+            } else {
+                document.getElementById('ageModal').style.display = 'flex';
+            }
+        }
+
+        /* ==================== COA 报告预览 JS 逻辑 ==================== */
+        function openLightbox(imgSrc) {
+            var lightbox = document.getElementById('lightboxModal');
+            var img = document.getElementById('lightboxImg');
+            img.src = imgSrc;
+            lightbox.style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').style.display = 'none';
+        }
+
+        // 初始化
         document.addEventListener("DOMContentLoaded", function() {
+            checkAgeVerification();
             renderProductsList();
             updateCartCount();
         });
