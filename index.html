@@ -3,132 +3,413 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peptides Factory</title>
+    <title>Peptides Factory | Premium Research Peptides Manufacturer & Bulk Supply</title>
+    <meta name="description" content="Premium factory-direct supplier of high-purity research peptides. Offering single vials, flexible kits, and bulk wholesale with 99%+ verified HPLC/MS reports. Secure global shipping with customs guarantee.">
+    
+    <meta name="google-site-verification" content="4bALlEtLjjrSW73cVDcAl1pXg-N04k3dNQ-4sq15fXU" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 0; background: #f4f6f9; color: #333; }
+        html { scroll-behavior: smooth; scroll-padding-top: 140px; }
+        :root { --primary-color: #0a2540; --accent-color: #00d4b2; --text-dark: #333; --bg-light: #f8f9fa; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; color: var(--text-dark); background-color: #fff; padding-bottom: 70px; }
         
-        /* 强制全屏遮罩弹窗 */
+        .announcement-bar { background-color: var(--primary-color); color: #fff; text-align: center; padding: 10px 0; font-size: 14px; font-weight: bold; }
+        .announcement-bar a { color: var(--accent-color); text-decoration: none; }
+
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; border-bottom: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05); background: #fff; position: sticky; top: 0; z-index: 100; }
+        .logo-container { display: flex; align-items: center; text-decoration: none; }
+        .logo-img { height: 90px; width: auto; object-fit: contain; }
+        nav a { margin: 0 15px; text-decoration: none; color: var(--text-dark); font-weight: 500; transition: 0.3s; }
+        nav a:hover { color: var(--accent-color); }
+        .cart-count { background: var(--accent-color); color: white; padding: 2px 6px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-left: 5px; }
+
+        .hero-section { background: linear-gradient(rgba(10,37,64,0.85), rgba(10,37,64,0.85)), url('https://images.unsplash.com/photo-1532187875605-1ef6ca237b63?auto=format&fit=crop&q=80&w=1920') no-repeat center/cover; color: white; text-align: center; padding: 120px 20px; }
+        .hero-section h1 { font-size: 42px; margin-bottom: 10px; }
+        .hero-section p { font-size: 18px; opacity: 0.9; }
+
+        .container { width: 90%; margin: 60px auto; }
+        .section-title { text-align: center; margin-bottom: 50px; font-size: 32px; color: var(--primary-color); }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        
+        .product-card { border: 1px solid #e1e1e1; border-radius: 12px; padding: 25px; text-align: center; transition: 0.4s; background: #fff; display: flex; flex-direction: column; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .product-link { text-decoration: none; color: inherit; display: block; cursor: pointer; margin-bottom: 20px; }
+        .product-img { width: 100%; height: 220px; background-color: #f0f0f0; margin-bottom: 20px; border-radius: 8px; display:flex; align-items:center; justify-content:center; overflow: hidden; }
+        .product-img img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.4s ease; }
+        .product-card:hover .product-img img { transform: scale(1.08); }
+        .product-title { font-size: 20px; margin: 15px 0 10px; font-weight: bold; color: var(--primary-color); }
+        .product-price { color: #555; font-weight: 600; font-size: 18px; margin: 0; }
+        
+        .inquiry-btn { background-color: var(--primary-color); color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: block; width: 100%; font-size: 16px; font-family: inherit; font-weight: bold; transition: 0.3s; margin-top: auto; box-sizing: border-box; }
+        .inquiry-btn:hover { background-color: var(--accent-color); color: var(--primary-color); }
+
+        .features-section { background-color: var(--bg-light); padding: 80px 5%; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
+        .feature-box { background: white; padding: 35px; border-radius: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .feature-box h3 { color: var(--primary-color); margin-bottom: 15px; font-size: 22px; }
+
+        .contact-icons-only { display: flex; justify-content: center; gap: 30px; margin-top: 20px; }
+        .contact-icons-only a { font-size: 32px; transition: 0.3s; text-decoration: none; }
+        .contact-icons-only a:hover { transform: scale(1.2); }
+        .contact-icons-only .fa-envelope { color: #00d4b2; } 
+        .contact-icons-only .fa-discord { color: #5865F2; }  
+        .contact-icons-only .fa-whatsapp { color: #25D366; } 
+
+        footer { background-color: #0d1117; color: #9ca3af; padding: 60px 5% 30px; font-size: 14px; }
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 40px; }
+        .footer-column { flex: 1; min-width: 250px; margin-bottom: 30px; padding-right: 20px; }
+        .footer-column h4 { color: white; margin-bottom: 20px; font-size: 18px; }
+        .footer-column a { color: #9ca3af; text-decoration: none; display: block; margin-bottom: 10px; }
+        .disclaimer { border-top: 1px solid #30363d; padding-top: 30px; font-size: 12px; color: #6b7280; text-align: justify; }
+        
+        .social-contact-wrapper { position: fixed; bottom: 80px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 9999; }
+        .social-btn { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: white; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: transform 0.3s ease, background-color 0.3s ease; }
+        .social-btn:hover { transform: scale(1.1); }
+        .tg-color { background-color: #26A5E4; }
+        .tg-color:hover { background-color: #229ED9; }
+        .wa-color { background-color: #25D366; }
+        .wa-color:hover { background-color: #20BA5A; }
+
+        /* ==================== 验证弹窗 CSS (完全兼容且原生弹窗) ==================== */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.75);
             display: flex; align-items: center; justify-content: center;
-            z-index: 999999; backdrop-filter: blur(5px);
+            z-index: 999999; backdrop-filter: blur(4px);
         }
-        .modal-card {
-            background: #ffffff; border-radius: 12px; width: 90%; max-width: 550px;
-            overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3); text-align: left;
+        .modal-card-styled {
+            background: #fff; border-radius: 12px; max-width: 580px; width: 90%;
+            max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            text-align: left; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
-        .modal-header {
-            background-color: #6edccb; padding: 18px 24px;
-            font-size: 20px; font-weight: bold; color: #1a202c;
+        .modal-header-styled {
+            background-color: #72e2d8; padding: 20px 25px;
+            font-size: 20px; font-weight: 700; color: #1f2937;
         }
-        .modal-body { padding: 24px; color: #4a5568; font-size: 14px; line-height: 1.5; }
-        .modal-body p { margin-top: 0; margin-bottom: 18px; color: #2d3748; font-size: 14px; }
+        .modal-body-styled { padding: 25px; color: #4b5563; font-size: 14px; line-height: 1.5; }
+        .modal-body-styled > p { margin-top: 0; margin-bottom: 20px; color: #374151; font-size: 15px; }
         
-        /* 邮箱与姓名登记框 */
-        .register-box {
-            background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px;
-            padding: 14px; margin-bottom: 16px;
+        .registration-fields {
+            background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;
+            padding: 15px; margin-bottom: 20px;
         }
-        .register-box label { font-weight: 600; color: #2d3748; display: block; margin-bottom: 6px; font-size: 13px; }
-        .input-control {
-            width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 6px;
+        .registration-fields label { font-weight: 600; color: #1e293b; display: block; margin-bottom: 8px; font-size: 13px; }
+        .input-field {
+            width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px;
             font-size: 14px; box-sizing: border-box; outline: none; margin-bottom: 10px;
         }
-        .input-control:focus { border-color: #319795; }
+        .input-field:focus { border-color: #00d4b2; }
 
-        /* 复选框布局（1:1 还原截图） */
-        .checkbox-row {
-            border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 16px;
-            margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px; background: #fff;
+        .checkbox-group {
+            border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px 16px;
+            margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px;
+            background: #fff;
         }
-        .checkbox-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: #3182ce; margin-top: 2px; flex-shrink: 0; cursor: pointer; }
-        .checkbox-row label { cursor: pointer; font-size: 13px; color: #4a5568; line-height: 1.4; }
-        .checkbox-row a { color: #6b46c1; text-decoration: underline; font-weight: 600; }
+        .checkbox-group input[type="checkbox"] {
+            width: 18px; height: 18px; accent-color: #0066ff; margin-top: 2px; cursor: pointer; flex-shrink: 0;
+        }
+        .checkbox-group label { cursor: pointer; font-size: 13px; color: #374151; line-height: 1.4; }
+        .checkbox-group a { color: #7c3aed; text-decoration: underline; font-weight: 600; }
 
-        /* 按钮组 */
-        .modal-footer { padding: 12px 24px 24px; display: flex; justify-content: flex-end; gap: 12px; }
-        .btn-exit { background: #e53e3e; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; }
-        .btn-agree { background: #6b46c1; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; }
-        .btn-agree:disabled { background: #cbd5e0; cursor: not-allowed; opacity: 0.6; }
+        .modal-footer-styled {
+            padding: 15px 25px 25px; display: flex; justify-content: flex-end; gap: 12px;
+        }
+        .btn-exit {
+            background-color: #ef4444; color: white; border: none; padding: 10px 24px;
+            border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px;
+        }
+        .btn-agree {
+            background-color: #7c3aed; color: white; border: none; padding: 10px 24px;
+            border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px;
+        }
+        .btn-agree:disabled { background-color: #c4b5fd; cursor: not-allowed; opacity: 0.7; }
 
-        /* 主页简易内容 */
-        .header-demo { text-align: center; padding: 40px 20px; background: #0a2540; color: white; }
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background: #fff; border-top: 1px solid #ddd; display: flex; justify-content: space-around; align-items: center; z-index: 1000; }
-        .bottom-nav div { text-align: center; font-size: 12px; color: #666; }
-        .bottom-nav i { font-size: 18px; display: block; margin-bottom: 2px; }
+        /* 底部工具栏与购物车悬浮球 */
+        .true-bottom-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 60px;
+            background: #ffffff; border-top: 1px solid #e5e7eb;
+            display: flex; justify-content: space-around; align-items: center;
+            z-index: 10000; box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+        .bottom-nav-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: #4b5563; text-decoration: none; font-size: 12px; font-weight: 600; position: relative; width: 33.33%; height: 100%;
+        }
+        .bottom-nav-item i { font-size: 18px; margin-bottom: 3px; }
+        
+        .nav-badge {
+            position: absolute; top: 6px; right: 38%;
+            background-color: #00d4b2; color: white; border-radius: 10px;
+            padding: 1px 6px; font-size: 10px; font-weight: bold;
+        }
+
+        .cart-float-btn {
+            position: fixed; bottom: 20px; right: 25px;
+            width: 56px; height: 56px; background-color: #0099e6;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 22px; text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,153,230,0.4); z-index: 10001;
+        }
+        .cart-float-badge {
+            position: absolute; top: -2px; left: -2px;
+            background-color: #10b981; color: white; border-radius: 10px;
+            padding: 2px 6px; font-size: 11px; font-weight: bold; border: 2px solid #fff;
+        }
+
+        /* COA Lightbox */
+        .lightbox-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); z-index: 99998;
+            align-items: center; justify-content: center; backdrop-filter: blur(5px);
+        }
+        .lightbox-img { max-width: 90%; max-height: 90vh; border-radius: 8px; }
+        .lightbox-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 35px; cursor: pointer; }
+        .report-preview-box { cursor: pointer; position: relative; }
     </style>
 </head>
 <body>
 
-    <!-- 顶栏与主页背景 -->
-    <div class="header-demo">
-        <h1>TRUE PEPTIDE LABS</h1>
-        <p>Please complete age verification and registration to enter.</p>
+    <!-- 顶栏 -->
+    <div class="announcement-bar">
+        📢 Welcome to Peptides Factory! Join Our Official Groups for Real-Time Updates & Special Offers.
+        <a href="https://t.me/PeptidesIris" target="_blank" style="margin-left: 10px; text-decoration: underline;"><i class="fab fa-telegram-plane"></i> Join Telegram Channel</a> 
+        <span style="margin: 0 8px; opacity: 0.5;">|</span>
+        <a href="https://chat.whatsapp.com/EhGJqCLZMjFJlta7xbKRNd" target="_blank" style="text-decoration: underline;"><i class="fab fa-whatsapp"></i> Join WhatsApp Group</a>
     </div>
 
-    <!-- 1:1 年龄验证 + 邮箱登记强弹窗 -->
+    <!-- Header 导航 -->
+    <header>
+        <a href="#home" class="logo-container"><img src="logo.png" alt="Logo" class="logo-img" onerror="this.style.display='none'"></a>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#shop">Shop</a>
+            <a href="#lab">Lab Reports</a>
+            <a href="#about">About Us</a>
+            <a href="#contact">Contact Us</a>
+            <a href="cart.html" id="nav-cart"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count" id="cart-count">0</span></a>
+        </nav>
+    </header>
+    
+    <!-- Hero 区块 -->
+    <section class="hero-section" id="home">
+        <h1>Premium Research Peptides Manufacturer</h1>
+        <p>Laboratory Grade Purity | Direct Factory Pricing | Stealth Worldwide Shipping & Flexible Kits</p>
+    </section>
+
+    <!-- 产品列表区 -->
+    <section class="container" id="shop">
+        <h2 class="section-title">Highest Quality Research Peptides</h2>
+        <div class="product-grid" id="main-product-grid"></div>
+    </section>
+
+    <!-- Lab 报告区 -->
+    <section class="features-section" id="lab">
+        <h2 class="section-title">Verified Laboratory Test Reports</h2>
+        
+        <div style="max-width: 1200px; margin: 0 auto 50px auto; display: block; text-align: center;">
+            <p style="color: #666; margin-bottom: 25px; font-size: 16px;">We test every batch to ensure 99%+ purity. Click to view full HPLC & MS certificates.</p>
+            
+            <div style="display: block; text-align: center; font-size: 0;">
+                <div class="report-preview-box" onclick="openLightbox('report1.jpg')" style="display: inline-block; width: 45%; min-width: 280px; max-width: 450px; margin: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 8px; overflow: hidden; background: #fff; vertical-align: top;">
+                    <img src="report1.jpg" alt="HPLC Test Report" style="width: 100%; height: auto; display: block;" onerror="this.src='https://via.placeholder.com/400x300?text=HPLC+Report'">
+                </div>
+
+                <div class="report-preview-box" onclick="openLightbox('report2.jpg')" style="display: inline-block; width: 45%; min-width: 280px; max-width: 450px; margin: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 8px; overflow: hidden; background: #fff; vertical-align: top;">
+                    <img src="report2.jpg" alt="Mass Spectrometry Report" style="width: 100%; height: auto; display: block;" onerror="this.src='https://via.placeholder.com/400x300?text=MS+Report'">
+                </div>
+            </div>
+        </div>
+
+        <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary-color); font-size: 24px;">Why Choose Peptides Factory?</h3>
+        <div class="features-grid">
+            <div class="feature-box">
+                <h3>99%+ Verified Purity</h3>
+                <p>Every single batch undergoes rigorous HPLC and Mass Spectrometry analysis. Real-time lab testing reports are provided to guarantee absolute consistency for your research.</p>
+            </div>
+            <div class="feature-box">
+                <h3>Secure & Flexible Payments</h3>
+                <p>We support secure payments including Bank Wire (T/T), Wise, USDT, and Bitcoin (BTC) to satisfy both individual orders and business commercial transactions.</p>
+            </div>
+            <div class="feature-box">
+                <h3>Discreet Worldwide Delivery</h3>
+                <p>Advanced stealth packaging methods with double customs clearance (DDP). We offer a 100% free reship policy if any parcel is seized by customs across the USA, UK, EU, Brazil, or Dubai.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-column" id="about">
+                <h4>About Peptides Factory</h4>
+                <p>We are a leading direct-to-consumer and business-to-business manufacturer specializing in premium research peptides and API intermediates since 2018. We support researchers, distributors, and brands globally with unbeatable direct prices and flexible scaling.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Quick Links</h4>
+                <a href="#shop">Shop Products</a>
+                <a href="#lab">Lab Reports</a>
+                <a href="#">Shipping Policy</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <div class="footer-column" style="text-align: center;">
+                <h4>Inquiry & Contact</h4>
+                <div class="contact-icons-only">
+                    <a href="mailto:iajsh3657@gmail.com" title="Email Us"><i class="fas fa-envelope"></i></a>
+                    <a href="https://discord.gg/aBwykq6pZ" target="_blank" title="Join Discord"><i class="fab fa-discord"></i></a>
+                    <a href="https://wa.me/85252638529" target="_blank" title="WhatsApp Us"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="disclaimer">
+            <strong>IMPORTANT DISCLAIMER:</strong> <br>All products listed on this website are strictly for <strong>LABORATORY RESEARCH AND DEVELOPMENT PURPOSES ONLY</strong>. Not for human therapeutic, cosmetic, or diagnostic clinical consumption.
+        </div>
+    </footer>
+
+    <!-- 浮动社交联系按钮 -->
+    <div class="social-contact-wrapper">
+        <a href="https://t.me/PeptidesIris" class="social-btn tg-color" target="_blank">
+            <i class="fab fa-telegram-plane"></i>
+        </a>
+        <a href="https://wa.me/85252638529" class="social-btn wa-color" target="_blank">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <!-- ==================== 年龄验证 + 邮箱登记强弹窗 ==================== -->
     <div class="modal-overlay" id="ageModal">
-        <div class="modal-card">
-            <div class="modal-header">
+        <div class="modal-card-styled">
+            <div class="modal-header-styled">
                 Age Verification Required
             </div>
-            <div class="modal-body">
-                <p>This website is restricted. To continue, please confirm you meet the minimum age requirement, submit your email, and accept the agreement below.</p>
+            <div class="modal-body-styled">
+                <p>This website is restricted. To continue, please confirm you meet the minimum age requirement and accept the agreement below.</p>
                 
-                <!-- 邮箱与姓名登记区 -->
-                <div class="register-box">
-                    <label>Researcher Email Registration *</label>
-                    <input type="email" id="userEmail" class="input-control" placeholder="Enter your email address..." oninput="checkFormValid()">
-                    <input type="text" id="userName" class="input-control" placeholder="Full Name (Optional)" style="margin-bottom:0;">
+                <div class="registration-fields">
+                    <label>Researcher Registration</label>
+                    <input type="email" id="regEmail" class="input-field" placeholder="Email Address *" required oninput="validateCheckboxes()">
+                    <input type="text" id="regName" class="input-field" placeholder="Full Name (Optional)" style="margin-bottom:0;" oninput="validateCheckboxes()">
                 </div>
 
-                <!-- 截图同款 4 个复选框 -->
-                <div class="checkbox-row">
-                    <input type="checkbox" id="c1" onchange="checkFormValid()">
-                    <label for="c1">I confirm I am 21+ years of age or older.</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="chk1" onchange="validateCheckboxes()">
+                    <label for="chk1">I confirm I am 21+ years of age or older.</label>
                 </div>
 
-                <div class="checkbox-row">
-                    <input type="checkbox" id="c2" onchange="checkFormValid()">
-                    <label for="c2">I agree that products and information on this website are provided for laboratory research use only and are not intended for use in or on humans or animals. I will not use any products or information from this website for diagnosis, treatment, cure, or prevention of any condition. I agree to follow applicable laws and regulations, and I agree to the Terms of Service and Privacy Policy.</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="chk2" onchange="validateCheckboxes()">
+                    <label for="chk2">I agree that products and information on this website are provided for laboratory research use only and are not intended for use in or on humans or animals. I will not use any products or information from this website for diagnosis, treatment, cure, or prevention of any condition. I agree to follow applicable laws and regulations, and I agree to the Terms of Service and Privacy Policy.</label>
                 </div>
 
-                <div class="checkbox-row">
-                    <input type="checkbox" id="c3" onchange="checkFormValid()">
-                    <label for="c3">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="chk3" onchange="validateCheckboxes()">
+                    <label for="chk3">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</label>
                 </div>
 
-                <div class="checkbox-row">
-                    <input type="checkbox" id="c4">
-                    <label for="c4">Remember my choice</label>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="chk4">
+                    <label for="chk4">Remember my choice</label>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn-exit" onclick="location.href='https://www.google.com'">Exit</button>
-                <button class="btn-agree" id="submitBtn" disabled onclick="submitForm()">I Agree & Enter</button>
+            <div class="modal-footer-styled">
+                <button class="btn-exit" onclick="denyAge()">Exit</button>
+                <button class="btn-agree" id="btnAgree" disabled onclick="acceptAge()">I Agree & Enter</button>
             </div>
         </div>
     </div>
 
-    <!-- 截图 2 底部栏组件 -->
-    <div class="bottom-nav">
-        <div><i class="fas fa-store"></i>Shop</div>
-        <div><i class="fas fa-shopping-cart"></i>Cart (0)</div>
-        <div><i class="fas fa-user"></i>My account</div>
+    <!-- 底部导航 & 购物车悬浮球 -->
+    <nav class="true-bottom-nav">
+        <a href="#shop" class="bottom-nav-item">
+            <i class="fas fa-store"></i>
+            <span>Shop</span>
+        </a>
+        <a href="cart.html" class="bottom-nav-item">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="nav-badge" id="bottom-cart-count">0</span>
+            <span>Cart</span>
+        </a>
+        <a href="#contact" class="bottom-nav-item">
+            <i class="fas fa-user"></i>
+            <span>My account</span>
+        </a>
+    </nav>
+
+    <!-- 右下角蓝色购物车图标 -->
+    <a href="cart.html" class="cart-float-btn">
+        <span class="cart-float-badge" id="float-cart-count">0</span>
+        <i class="fas fa-shopping-cart"></i>
+    </a>
+
+    <!-- COA Lightbox HTML -->
+    <div class="lightbox-overlay" id="lightboxModal" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-img" id="lightboxImg" src="" alt="Lab Test Certificate">
     </div>
 
+    <script src="data.js"></script>
     <script>
-        // 实时验证：必须勾选前3个框 + 填写有效邮箱，按钮才变亮
-        function checkFormValid() {
-            var email = document.getElementById('userEmail').value.trim();
-            var c1 = document.getElementById('c1').checked;
-            var c2 = document.getElementById('c2').checked;
-            var c3 = document.getElementById('c3').checked;
-            var btn = document.getElementById('submitBtn');
+        // 自动容错，如果 data.js 没读取到，给一组默认展示产品，防止页面卡空
+        var DEFAULT_PRODUCTS = [
+            { id: "tirzepatide", name: "Tirzepatide", image: "logo.png", variants: [{ price: 45 }] },
+            { id: "semaglutide", name: "Semaglutide", image: "logo.png", variants: [{ price: 35 }] },
+            { id: "retatrutide", name: "Retatrutide", image: "logo.png", variants: [{ price: 55 }] }
+        ];
 
+        function calculatePriceRange(product) {
+            if (!product || !product.variants || product.variants.length === 0) return "Contact Price";
+            var prices = product.variants.map(function(v) { return v.price; });
+            var min = Math.min.apply(null, prices);
+            var max = Math.max.apply(null, prices);
+            return min === max ? "$" + min.toFixed(2) : "$" + min.toFixed(2) + " – $" + max.toFixed(2);
+        }
+
+        function renderProductsList() {
+            var grid = document.getElementById('main-product-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            
+            var sourceData = (typeof PRODUCTS_DATA !== 'undefined' && Array.isArray(PRODUCTS_DATA)) ? PRODUCTS_DATA : DEFAULT_PRODUCTS;
+
+            sourceData.forEach(function(product) {
+                var priceText = calculatePriceRange(product);
+                var imgFile = product.image ? product.image : 'logo.png';
+                
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <a href="product.html?id=${product.id}" class="product-link">
+                            <div class="product-img">
+                                <img src="${imgFile}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/200?text=Peptide'">
+                            </div>
+                            <div class="product-title">${product.name}</div>
+                            <div class="product-price">${priceText}</div>
+                        </a>
+                        <a href="product.html?id=${product.id}" class="inquiry-btn">
+                            <i class="fas fa-shopping-bag"></i> Select Options
+                        </a>
+                    </div>
+                `;
+            });
+        }
+
+        function updateCartCount() {
+            try {
+                var cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
+                var totalItems = cart.reduce(function(sum, item) { return sum + (parseInt(item.quantity) || 0); }, 0);
+                
+                if (document.getElementById('cart-count')) document.getElementById('cart-count').textContent = totalItems;
+                if (document.getElementById('bottom-cart-count')) document.getElementById('bottom-cart-count').textContent = totalItems;
+                if (document.getElementById('float-cart-count')) document.getElementById('float-cart-count').textContent = totalItems;
+            } catch(e) { console.log(e); }
+        }
+
+        function validateCheckboxes() {
+            var c1 = document.getElementById('chk1').checked;
+            var c2 = document.getElementById('chk2').checked;
+            var c3 = document.getElementById('chk3').checked;
+            var email = document.getElementById('regEmail').value.trim();
+            
+            var btn = document.getElementById('btnAgree');
             if (c1 && c2 && c3 && email.length > 3 && email.includes('@')) {
                 btn.disabled = false;
             } else {
@@ -136,24 +417,44 @@
             }
         }
 
-        // 点击提交保存数据并关闭弹窗
-        function submitForm() {
-            var email = document.getElementById('userEmail').value;
-            localStorage.setItem('registered_email', email);
-            if (document.getElementById('c4').checked) {
-                localStorage.setItem('verified_user', 'true');
+        function acceptAge() {
+            var email = document.getElementById('regEmail').value.trim();
+            var name = document.getElementById('regName').value.trim();
+            localStorage.setItem('user_email', email);
+            if (name) localStorage.setItem('user_name', name);
+
+            if (document.getElementById('chk4').checked) {
+                localStorage.setItem('peptides_age_verified', 'true');
             }
             document.getElementById('ageModal').style.display = 'none';
         }
 
-        // 页面加载判断
-        window.onload = function() {
-            if (localStorage.getItem('verified_user') === 'true') {
+        function denyAge() {
+            window.location.href = 'https://www.google.com';
+        }
+
+        function checkAgeVerification() {
+            if (localStorage.getItem('peptides_age_verified') === 'true') {
                 document.getElementById('ageModal').style.display = 'none';
             } else {
                 document.getElementById('ageModal').style.display = 'flex';
             }
         }
+
+        function openLightbox(imgSrc) {
+            document.getElementById('lightboxImg').src = imgSrc;
+            document.getElementById('lightboxModal').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').style.display = 'none';
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            checkAgeVerification();
+            renderProductsList();
+            updateCartCount();
+        });
     </script>
 </body>
 </html>
