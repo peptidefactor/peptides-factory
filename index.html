@@ -1,339 +1,162 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peptides Factory | Premium Research Peptides Manufacturer & Bulk Supply</title>
-    <meta name="description" content="Premium factory-direct supplier of high-purity research peptides. Offering single vials, flexible kits, and bulk wholesale with 99%+ verified HPLC/MS reports. Secure global shipping with customs guarantee.">
-    
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Peptides Factory | Premium Research Peptides</title>
+    <meta name="description" content="Peptides Factory — premium peptide sourcing, clear product discovery, and a modern trust-first experience." />
     <meta name="google-site-verification" content="4bALlEtLjjrSW73cVDcAl1pXg-N04k3dNQ-4sq15fXU" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>
-        html { scroll-behavior: smooth; scroll-padding-top: 140px; }
-        :root { --primary-color: #0a2540; --accent-color: #00d4b2; --text-dark: #333; --bg-light: #f8f9fa; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; color: var(--text-dark); background-color: #fff; }
-        
-        .announcement-bar { background-color: var(--primary-color); color: #fff; text-align: center; padding: 10px 0; font-size: 14px; font-weight: bold; }
-        .announcement-bar a { color: var(--accent-color); text-decoration: none; }
-
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; border-bottom: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05); background: #fff; position: sticky; top: 0; z-index: 100; }
-        .logo-container { display: flex; align-items: center; text-decoration: none; }
-        .logo-img { height: 90px; width: auto; object-fit: contain; }
-        nav a { margin: 0 15px; text-decoration: none; color: var(--text-dark); font-weight: 500; transition: 0.3s; }
-        nav a:hover { color: var(--accent-color); }
-        .cart-count { background: var(--accent-color); color: white; padding: 2px 6px; border-radius: 10px; font-size: 12px; font-weight: bold; margin-left: 5px; }
-
-        .hero-section { background: linear-gradient(rgba(10,37,64,0.85), rgba(10,37,64,0.85)), url('https://images.unsplash.com/photo-1532187875605-1ef6ca237b63?auto=format&fit=crop&q=80&w=1920') no-repeat center/cover; color: white; text-align: center; padding: 120px 20px; }
-        .hero-section h1 { font-size: 42px; margin-bottom: 10px; }
-        .hero-section p { font-size: 18px; opacity: 0.9; }
-
-        .container { width: 90%; margin: 60px auto; }
-        .section-title { text-align: center; margin-bottom: 50px; font-size: 32px; color: var(--primary-color); }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        
-        .product-card { border: 1px solid #e1e1e1; border-radius: 12px; padding: 25px; text-align: center; transition: 0.4s; background: #fff; display: flex; flex-direction: column; }
-        .product-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .product-link { text-decoration: none; color: inherit; display: block; cursor: pointer; margin-bottom: 20px; }
-        .product-img { width: 100%; height: 220px; background-color: #f0f0f0; margin-bottom: 20px; border-radius: 8px; display:flex; align-items:center; justify-content:center; overflow: hidden; }
-        .product-img img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.4s ease; }
-        .product-card:hover .product-img img { transform: scale(1.08); }
-        .product-title { font-size: 20px; margin: 15px 0 10px; font-weight: bold; color: var(--primary-color); }
-        .product-price { color: #555; font-weight: 600; font-size: 18px; margin: 0; }
-        
-        .inquiry-btn { background-color: var(--primary-color); color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: block; width: 100%; font-size: 16px; font-family: inherit; font-weight: bold; transition: 0.3s; margin-top: auto; box-sizing: border-box; }
-        .inquiry-btn:hover { background-color: var(--accent-color); color: var(--primary-color); }
-
-        .features-section { background-color: var(--bg-light); padding: 80px 5%; }
-        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
-        .feature-box { background: white; padding: 35px; border-radius: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .feature-box h3 { color: var(--primary-color); margin-bottom: 15px; font-size: 22px; }
-
-        .contact-icons-only { display: flex; justify-content: center; gap: 30px; margin-top: 20px; }
-        .contact-icons-only a { font-size: 32px; transition: 0.3s; text-decoration: none; }
-        .contact-icons-only a:hover { transform: scale(1.2); }
-        .contact-icons-only .fa-envelope { color: #00d4b2; } 
-        .contact-icons-only .fa-discord { color: #5865F2; }  
-        .contact-icons-only .fa-whatsapp { color: #25D366; } 
-
-        footer { background-color: #0d1117; color: #9ca3af; padding: 60px 5% 30px; font-size: 14px; }
-        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 40px; }
-        .footer-column { flex: 1; min-width: 250px; margin-bottom: 30px; padding-right: 20px; }
-        .footer-column h4 { color: white; margin-bottom: 20px; font-size: 18px; }
-        .footer-column a { color: #9ca3af; text-decoration: none; display: block; margin-bottom: 10px; }
-        .disclaimer { border-top: 1px solid #30363d; padding-top: 30px; font-size: 12px; color: #6b7280; text-align: justify; }
-        
-        .social-contact-wrapper { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 10000; }
-        .social-btn { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: white; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: transform 0.3s ease, background-color 0.3s ease; }
-        .social-btn:hover { transform: scale(1.1); }
-        .tg-color { background-color: #26A5E4; }
-        .tg-color:hover { background-color: #229ED9; }
-        .wa-color { background-color: #25D366; }
-        .wa-color:hover { background-color: #20BA5A; }
-
-        /* ==================== 1. 年龄验证弹窗 CSS ==================== */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 37, 64, 0.92);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 99999; backdrop-filter: blur(8px);
-        }
-        .modal-card {
-            background: #fff; padding: 40px 30px; border-radius: 12px;
-            max-width: 460px; width: 90%; text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            border-top: 6px solid var(--accent-color);
-        }
-        .modal-card h2 { color: var(--primary-color); font-size: 24px; margin-bottom: 15px; }
-        .modal-card p { font-size: 14px; color: #666; margin-bottom: 25px; line-height: 1.6; }
-        .modal-btns { display: flex; gap: 15px; justify-content: center; }
-        .modal-btn-confirm { background-color: var(--primary-color); color: #fff; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; flex: 1; transition: 0.3s; }
-        .modal-btn-confirm:hover { background-color: var(--accent-color); color: var(--primary-color); }
-        .modal-btn-deny { background-color: #e5e7eb; color: #4b5563; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; flex: 1; transition: 0.3s; }
-        .modal-btn-deny:hover { background-color: #d1d5db; }
-
-        /* ==================== 2. COA 检测报告大图弹窗 CSS ==================== */
-        .lightbox-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); z-index: 99998;
-            align-items: center; justify-content: center; backdrop-filter: blur(5px);
-        }
-        .lightbox-img { max-width: 90%; max-height: 90vh; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .lightbox-close {
-            position: absolute; top: 20px; right: 30px; color: #fff; font-size: 35px;
-            font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
-        .lightbox-close:hover { color: var(--accent-color); }
-        .report-preview-box { cursor: pointer; position: relative; }
-        .report-preview-box::after {
-            content: "\f00e  Click to Preview"; font-family: "Font Awesome 6 Free"; font-weight: 900;
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 37, 64, 0.6); color: #fff;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; transition: 0.3s; font-size: 16px;
-        }
-        .report-preview-box:hover::after { opacity: 1; }
-    </style>
-</head>
-<body>
-
-    <!-- 顶栏 -->
-    <div class="announcement-bar">
-        📢 Welcome to Peptides Factory! Join Our Official Groups for Real-Time Updates & Special Offers.
-        <a href="https://t.me/PeptidesIris" target="_blank" style="margin-left: 10px; text-decoration: underline;"><i class="fab fa-telegram-plane"></i> Join Telegram Channel</a> 
-        <span style="margin: 0 8px; opacity: 0.5;">|</span>
-        <a href="https://chat.whatsapp.com/EhGJqCLZMjFJlta7xbKRNd" target="_blank" style="text-decoration: underline;"><i class="fab fa-whatsapp"></i> Join WhatsApp Group</a>
-    </div>
-
-    <!-- 导航栏 -->
-    <header>
-        <a href="#home" class="logo-container"><img src="logo.png" alt="Logo" class="logo-img"></a>
-        <nav>
-            <a href="#home" style="transition: 0.3s;">Home</a>
-            <a href="#shop" style="transition: 0.3s;">Shop</a>
-            <a href="#lab" style="transition: 0.3s;">Lab Reports</a>
-            <a href="#about" style="transition: 0.3s;">About Us</a>
-            <a href="#contact" style="transition: 0.3s;">Contact Us</a>
-            <a href="cart.html" id="nav-cart" style="transition: 0.3s;"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count" id="cart-count">0</span></a>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">PF</div>
+          <div>
+            <div class="brand-name">Peptides Factory</div>
+            <div class="brand-sub">Trusted peptide sourcing</div>
+          </div>
+        </div>
+        <nav class="nav">
+          <a href="#home">Home</a>
+          <a href="#shop">Shop</a>
+          <a href="#lab">Lab Reports</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+          <a href="cart.html">Cart <span class="cart-count" id="cart-count">0</span></a>
         </nav>
-    </header>
-    
-    <!-- Hero 区块 -->
-    <section class="hero-section" id="home">
-        <h1>Premium Research Peptides Manufacturer</h1>
-        <p>Laboratory Grade Purity | Direct Factory Pricing | Stealth Worldwide Shipping & Flexible Kits</p>
-    </section>
+        <a class="button button-ghost" href="#shop">Browse Products</a>
+      </header>
 
-    <!-- 产品展示区 -->
-    <section class="container" id="shop">
-        <h2 class="section-title">Highest Quality Research Peptides</h2>
-        <div class="product-grid" id="main-product-grid"></div>
-    </section>
+      <main>
+        <section class="hero" id="home">
+          <div class="hero-copy">
+            <span class="eyebrow">Premium lab-grade supply</span>
+            <h1>Clean. Confident. Professional peptide sourcing.</h1>
+            <p class="hero-text">A refined storefront built to feel premium, modern, and trustworthy — with a clearer buying journey and a stronger brand presence.</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#shop">View Products</a>
+              <a class="button button-secondary" href="#lab">See Lab Reports</a>
+            </div>
+            <div class="hero-badges">
+              <span>Fast response</span>
+              <span>Secure checkout</span>
+              <span>Trust-first design</span>
+            </div>
+          </div>
+          <div class="hero-panel">
+            <div class="panel-card panel-card-dark">
+              <div class="panel-title">Featured Collection</div>
+              <div class="panel-grid">
+                <article class="mini-card"><div class="mini-icon">01</div><h3>Research Peptides</h3><p>Structured catalog presentation for easy product discovery.</p></article>
+                <article class="mini-card"><div class="mini-icon">02</div><h3>Quality Control</h3><p>Clear visual emphasis on testing, consistency, and confidence.</p></article>
+                <article class="mini-card"><div class="mini-icon">03</div><h3>Fast Fulfillment</h3><p>Sharper calls to action and a smoother shopping flow.</p></article>
+                <article class="mini-card"><div class="mini-icon">04</div><h3>Support</h3><p>Designed to feel responsive, credible, and easy to navigate.</p></article>
+              </div>
+            </div>
+          </div>
+        </section>
 
-    <!-- COA 实验室检测报告区 -->
-    <section class="features-section" id="lab">
-        <h2 class="section-title">Verified Laboratory Test Reports</h2>
-        
-        <div style="max-width: 1200px; margin: 0 auto 50px auto; display: block; text-align: center;">
-            <p style="color: #666; margin-bottom: 25px; font-size: 16px;">We test every batch to ensure 99%+ purity. Click to view full HPLC & MS certificates.</p>
-            
-            <div style="display: block; text-align: center; font-size: 0;">
-                <!-- COA 图 1 -->
-                <div class="report-preview-box" onclick="openLightbox('report1.jpg')" style="display: inline-block; width: 45%; min-width: 280px; max-width: 450px; margin: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 8px; overflow: hidden; background: #fff; vertical-align: top;">
-                    <img src="report1.jpg" alt="HPLC Test Report" style="width: 100%; height: auto; display: block;">
-                </div>
+        <section id="shop" class="section">
+          <div class="section-head">
+            <span class="eyebrow">Products</span>
+            <h2>Structured collections with a luxury medical aesthetic.</h2>
+            <p class="section-copy">We kept your product data and rebuilt the presentation so the page feels much closer to a premium brand site.</p>
+          </div>
+          <div class="product-grid" id="main-product-grid"></div>
+        </section>
 
-                <!-- COA 图 2 -->
-                <div class="report-preview-box" onclick="openLightbox('report2.jpg')" style="display: inline-block; width: 45%; min-width: 280px; max-width: 450px; margin: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 8px; overflow: hidden; background: #fff; vertical-align: top;">
-                    <img src="report2.jpg" alt="Mass Spectrometry Report" style="width: 100%; height: auto; display: block;">
-                </div>
-            </div>
-        </div>
+        <section id="lab" class="section split">
+          <div>
+            <span class="eyebrow">Quality</span>
+            <h2>Minimal, modern, and designed to build trust fast.</h2>
+          </div>
+          <div class="feature-list">
+            <div class="feature"><strong>Elegant typography</strong><p>High-contrast headlines and softer supporting copy.</p></div>
+            <div class="feature"><strong>Dark premium palette</strong><p>Deep navy, soft gray, and refined accent tones.</p></div>
+            <div class="feature"><strong>Conversion-focused layout</strong><p>Clear calls to action and reassuring product blocks.</p></div>
+          </div>
+        </section>
 
-        <h3 style="text-align: center; margin-bottom: 30px; color: var(--primary-color); font-size: 24px;">Why Choose Peptides Factory?</h3>
-        <div class="features-grid">
-            <div class="feature-box">
-                <h3>99%+ Verified Purity</h3>
-                <p>Every single batch undergoes rigorous HPLC and Mass Spectrometry analysis. Real-time lab testing reports are provided to guarantee absolute consistency for your research.</p>
-            </div>
-            <div class="feature-box">
-                <h3>Secure & Flexible Payments</h3>
-                <p>We support secure payments including Bank Wire (T/T), Wise, USDT, and Bitcoin (BTC) to satisfy both individual orders and business commercial transactions.</p>
-            </div>
-            <div class="feature-box">
-                <h3>Discreet Worldwide Delivery</h3>
-                <p>Advanced stealth packaging methods with double customs clearance (DDP). We offer a 100% free reship policy if any parcel is seized by customs across the USA, UK, EU, Brazil, or Dubai.</p>
-            </div>
-        </div>
-    </section>
+        <section class="section faq">
+          <div class="section-head">
+            <span class="eyebrow">FAQ</span>
+            <h2>Simple answers for a calmer buying experience.</h2>
+          </div>
+          <div class="faq-grid">
+            <details open><summary>Can this match the target site style?</summary><p>Yes — this update moves the site toward a darker, more premium, trust-first look.</p></details>
+            <details><summary>Can the product list stay dynamic?</summary><p>Yes — it still reads from `data.js`, so you can keep managing products in one place.</p></details>
+            <details><summary>Can we expand this into more pages?</summary><p>Definitely — we can add product detail pages, a stronger cart flow, or a contact page next.</p></details>
+          </div>
+        </section>
 
-    <!-- 页脚 -->
-    <footer id="contact">
-        <div class="footer-content">
-            <div class="footer-column" id="about">
-                <h4>About Peptides Factory</h4>
-                <p>We are a leading direct-to-consumer and business-to-business manufacturer specializing in premium research peptides and API intermediates since 2018. We support researchers, distributors, and brands globally with unbeatable direct prices and flexible scaling.</p>
-            </div>
-            <div class="footer-column">
-                <h4>Quick Links</h4>
-                <a href="#shop">Shop Products</a>
-                <a href="#lab">Lab Reports</a>
-                <a href="#">Shipping Policy</a>
-                <a href="#">Privacy Policy</a>
-            </div>
-            <div class="footer-column" style="text-align: center;">
-                <h4>Inquiry & Contact</h4>
-                <div class="contact-icons-only">
-                    <a href="mailto:iajsh3657@gmail.com" title="Email Us"><i class="fas fa-envelope"></i></a>
-                    <a href="https://discord.gg/aBwykq6pZ" target="_blank" title="Join Discord"><i class="fab fa-discord"></i></a>
-                    <a href="https://wa.me/85252638529" target="_blank" title="WhatsApp Us"><i class="fab fa-whatsapp"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="disclaimer">
-            <strong>IMPORTANT DISCLAIMER:</strong> <br>All products listed on this website are strictly for <strong>LABORATORY RESEARCH AND DEVELOPMENT PURPOSES ONLY</strong>. Not for human therapeutic, cosmetic, or diagnostic clinical consumption.
-        </div>
-    </footer>
-
-    <!-- 浮动社交联系按钮 -->
-    <div class="social-contact-wrapper">
-        <a href="https://t.me/PeptidesIris" class="social-btn tg-color" target="_blank">
-            <i class="fab fa-telegram-plane"></i>
-        </a>
-        <a href="https://wa.me/85252638529" class="social-btn wa-color" target="_blank">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-    </div>
-
-    <!-- ==================== 1. 年龄验证弹窗 HTML ==================== -->
-    <div class="modal-overlay" id="ageModal">
-        <div class="modal-card">
-            <h2><i class="fas fa-user-shield" style="color: var(--accent-color);"></i> Age Verification Required</h2>
-            <p>This website contains restricted high-purity research compounds. You must be at least 21 years of age and agree that all products are strictly for laboratory research purposes only.</p>
-            <div class="modal-btns">
-                <button class="modal-btn-deny" onclick="denyAge()">I am under 21</button>
-                <button class="modal-btn-confirm" onclick="acceptAge()">I am 21 or older</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== 2. COA 报告预览弹窗 HTML ==================== -->
-    <div class="lightbox-overlay" id="lightboxModal" onclick="closeLightbox()">
-        <span class="lightbox-close">&times;</span>
-        <img class="lightbox-img" id="lightboxImg" src="" alt="Lab Test Certificate">
+        <section id="contact" class="cta">
+          <div>
+            <span class="eyebrow">Ready</span>
+            <h2 id="about">Let’s make your site feel much more premium.</h2>
+          </div>
+          <a class="button button-primary" href="mailto:iajsh3657@gmail.com">Contact Us</a>
+        </section>
+      </main>
     </div>
 
     <script src="data.js"></script>
     <script>
-        // 计算价格范围
-        function calculatePriceRange(product) {
-            if (!product || !product.variants || product.variants.length === 0) return "Contact Price";
-            var prices = product.variants.map(function(v) { return v.price; });
-            var min = Math.min.apply(null, prices);
-            var max = Math.max.apply(null, prices);
-            return min === max ? "$" + min.toFixed(2) : "$" + min.toFixed(2) + " – $" + max.toFixed(2);
+      function calculatePriceRange(product) {
+        if (!product || !product.variants || product.variants.length === 0) return "Contact Price";
+        var prices = product.variants.map(function (variant) { return variant.price; });
+        var min = Math.min.apply(null, prices);
+        var max = Math.max.apply(null, prices);
+        return min === max ? "$" + min.toFixed(2) : "$" + min.toFixed(2) + " – $" + max.toFixed(2);
+      }
+
+      function renderProductsList() {
+        var grid = document.getElementById('main-product-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        if (typeof PRODUCTS_DATA === 'undefined' || !Array.isArray(PRODUCTS_DATA)) {
+          grid.innerHTML = '<p style="color:#ff8a8a;text-align:center;width:100%;">Data load error.</p>';
+          return;
         }
 
-        // 渲染产品列表
-        function renderProductsList() {
-            var grid = document.getElementById('main-product-grid');
-            if (!grid) return;
-            grid.innerHTML = '';
-            
-            if (typeof PRODUCTS_DATA === 'undefined' || !Array.isArray(PRODUCTS_DATA)) {
-                grid.innerHTML = '<p style="color:red;text-align:center;width:100%;">Data load error.</p>';
-                return;
-            }
+        PRODUCTS_DATA.forEach(function (product) {
+          var priceText = calculatePriceRange(product);
+          var imgFile = product.image ? product.image : 'logo.png';
 
-            PRODUCTS_DATA.forEach(function(product) {
-                var priceText = calculatePriceRange(product);
-                var imgFile = product.image ? product.image : 'logo.png';
-                
-                grid.innerHTML += `
-                    <div class="product-card">
-                        <a href="product.html?id=${product.id}" class="product-link">
-                            <div class="product-img">
-                                <img src="${imgFile}" alt="${product.name}" onerror="this.src='logo.png'">
-                            </div>
-                            <div class="product-title">${product.name}</div>
-                            <div class="product-price">${priceText}</div>
-                        </a>
-                        <a href="product.html?id=${product.id}" class="inquiry-btn">
-                            <i class="fas fa-shopping-bag"></i> Select Options
-                        </a>
-                    </div>
-                `;
-            });
-        }
-
-        // 更新购物车数字
-        function updateCartCount() {
-            try {
-                var cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
-                var totalItems = cart.reduce(function(sum, item) { return sum + (parseInt(item.quantity) || 0); }, 0);
-                var countEl = document.getElementById('cart-count');
-                if (countEl) countEl.textContent = totalItems;
-            } catch(e) {
-                console.log(e);
-            }
-        }
-
-        /* ==================== 年龄验证 JS 逻辑 ==================== */
-        function acceptAge() {
-            localStorage.setItem('peptides_age_verified', 'true');
-            document.getElementById('ageModal').style.display = 'none';
-        }
-
-        function denyAge() {
-            window.location.href = 'https://www.google.com';
-        }
-
-        function checkAgeVerification() {
-            if (localStorage.getItem('peptides_age_verified') === 'true') {
-                document.getElementById('ageModal').style.display = 'none';
-            } else {
-                document.getElementById('ageModal').style.display = 'flex';
-            }
-        }
-
-        /* ==================== COA 报告预览 JS 逻辑 ==================== */
-        function openLightbox(imgSrc) {
-            var lightbox = document.getElementById('lightboxModal');
-            var img = document.getElementById('lightboxImg');
-            img.src = imgSrc;
-            lightbox.style.display = 'flex';
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightboxModal').style.display = 'none';
-        }
-
-        // 初始化
-        document.addEventListener("DOMContentLoaded", function() {
-            checkAgeVerification();
-            renderProductsList();
-            updateCartCount();
+          grid.innerHTML += `
+            <article class="product-card">
+              <a href="product.html?id=${product.id}" class="product-link">
+                <div class="product-img">
+                  <img src="${imgFile}" alt="${product.name}" onerror="this.src='logo.png'" />
+                </div>
+                <div class="product-title">${product.name}</div>
+                <div class="product-price">${priceText}</div>
+              </a>
+              <a href="product.html?id=${product.id}" class="inquiry-btn">Select Options</a>
+            </article>`;
         });
+      }
+
+      function updateCartCount() {
+        try {
+          var cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
+          var totalItems = cart.reduce(function (sum, item) { return sum + (parseInt(item.quantity) || 0); }, 0);
+          var countEl = document.getElementById('cart-count');
+          if (countEl) countEl.textContent = totalItems;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        renderProductsList();
+        updateCartCount();
+      });
     </script>
-</body>
+  </body>
 </html>
