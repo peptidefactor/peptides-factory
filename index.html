@@ -12,7 +12,7 @@
     <style>
         html { scroll-behavior: smooth; scroll-padding-top: 140px; }
         :root { --primary-color: #0a2540; --accent-color: #00d4b2; --text-dark: #333; --bg-light: #f8f9fa; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; color: var(--text-dark); background-color: #fff; padding-bottom: 70px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; color: var(--text-dark); background-color: #fff; }
         
         .announcement-bar { background-color: var(--primary-color); color: #fff; text-align: center; padding: 10px 0; font-size: 14px; font-weight: bold; }
         .announcement-bar a { color: var(--accent-color); text-decoration: none; }
@@ -63,7 +63,7 @@
         .footer-column a { color: #9ca3af; text-decoration: none; display: block; margin-bottom: 10px; }
         .disclaimer { border-top: 1px solid #30363d; padding-top: 30px; font-size: 12px; color: #6b7280; text-align: justify; }
         
-        .social-contact-wrapper { position: fixed; bottom: 80px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 9999; }
+        .social-contact-wrapper { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 15px; z-index: 10000; }
         .social-btn { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: white; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: transform 0.3s ease, background-color 0.3s ease; }
         .social-btn:hover { transform: scale(1.1); }
         .tg-color { background-color: #26A5E4; }
@@ -71,101 +71,48 @@
         .wa-color { background-color: #25D366; }
         .wa-color:hover { background-color: #20BA5A; }
 
-        /* ==================== 验证弹窗 CSS (完全兼容且原生弹窗) ==================== */
+        /* ==================== 1. 年龄验证弹窗 CSS ==================== */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0, 0, 0, 0.75);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 37, 64, 0.92);
             display: flex; align-items: center; justify-content: center;
-            z-index: 999999; backdrop-filter: blur(4px);
+            z-index: 99999; backdrop-filter: blur(8px);
         }
-        .modal-card-styled {
-            background: #fff; border-radius: 12px; max-width: 580px; width: 90%;
-            max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            text-align: left; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        .modal-card {
+            background: #fff; padding: 40px 30px; border-radius: 12px;
+            max-width: 460px; width: 90%; text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-top: 6px solid var(--accent-color);
         }
-        .modal-header-styled {
-            background-color: #72e2d8; padding: 20px 25px;
-            font-size: 20px; font-weight: 700; color: #1f2937;
-        }
-        .modal-body-styled { padding: 25px; color: #4b5563; font-size: 14px; line-height: 1.5; }
-        .modal-body-styled > p { margin-top: 0; margin-bottom: 20px; color: #374151; font-size: 15px; }
-        
-        .registration-fields {
-            background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;
-            padding: 15px; margin-bottom: 20px;
-        }
-        .registration-fields label { font-weight: 600; color: #1e293b; display: block; margin-bottom: 8px; font-size: 13px; }
-        .input-field {
-            width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px;
-            font-size: 14px; box-sizing: border-box; outline: none; margin-bottom: 10px;
-        }
-        .input-field:focus { border-color: #00d4b2; }
+        .modal-card h2 { color: var(--primary-color); font-size: 24px; margin-bottom: 15px; }
+        .modal-card p { font-size: 14px; color: #666; margin-bottom: 25px; line-height: 1.6; }
+        .modal-btns { display: flex; gap: 15px; justify-content: center; }
+        .modal-btn-confirm { background-color: var(--primary-color); color: #fff; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; flex: 1; transition: 0.3s; }
+        .modal-btn-confirm:hover { background-color: var(--accent-color); color: var(--primary-color); }
+        .modal-btn-deny { background-color: #e5e7eb; color: #4b5563; border: none; padding: 12px 20px; border-radius: 5px; font-weight: bold; cursor: pointer; flex: 1; transition: 0.3s; }
+        .modal-btn-deny:hover { background-color: #d1d5db; }
 
-        .checkbox-group {
-            border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px 16px;
-            margin-bottom: 12px; display: flex; align-items: flex-start; gap: 12px;
-            background: #fff;
-        }
-        .checkbox-group input[type="checkbox"] {
-            width: 18px; height: 18px; accent-color: #0066ff; margin-top: 2px; cursor: pointer; flex-shrink: 0;
-        }
-        .checkbox-group label { cursor: pointer; font-size: 13px; color: #374151; line-height: 1.4; }
-        .checkbox-group a { color: #7c3aed; text-decoration: underline; font-weight: 600; }
-
-        .modal-footer-styled {
-            padding: 15px 25px 25px; display: flex; justify-content: flex-end; gap: 12px;
-        }
-        .btn-exit {
-            background-color: #ef4444; color: white; border: none; padding: 10px 24px;
-            border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px;
-        }
-        .btn-agree {
-            background-color: #7c3aed; color: white; border: none; padding: 10px 24px;
-            border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px;
-        }
-        .btn-agree:disabled { background-color: #c4b5fd; cursor: not-allowed; opacity: 0.7; }
-
-        /* 底部工具栏与购物车悬浮球 */
-        .true-bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; height: 60px;
-            background: #ffffff; border-top: 1px solid #e5e7eb;
-            display: flex; justify-content: space-around; align-items: center;
-            z-index: 10000; box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-        }
-        .bottom-nav-item {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            color: #4b5563; text-decoration: none; font-size: 12px; font-weight: 600; position: relative; width: 33.33%; height: 100%;
-        }
-        .bottom-nav-item i { font-size: 18px; margin-bottom: 3px; }
-        
-        .nav-badge {
-            position: absolute; top: 6px; right: 38%;
-            background-color: #00d4b2; color: white; border-radius: 10px;
-            padding: 1px 6px; font-size: 10px; font-weight: bold;
-        }
-
-        .cart-float-btn {
-            position: fixed; bottom: 20px; right: 25px;
-            width: 56px; height: 56px; background-color: #0099e6;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            color: white; font-size: 22px; text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0,153,230,0.4); z-index: 10001;
-        }
-        .cart-float-badge {
-            position: absolute; top: -2px; left: -2px;
-            background-color: #10b981; color: white; border-radius: 10px;
-            padding: 2px 6px; font-size: 11px; font-weight: bold; border: 2px solid #fff;
-        }
-
-        /* COA Lightbox */
+        /* ==================== 2. COA 检测报告大图弹窗 CSS ==================== */
         .lightbox-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); z-index: 99998;
             align-items: center; justify-content: center; backdrop-filter: blur(5px);
         }
-        .lightbox-img { max-width: 90%; max-height: 90vh; border-radius: 8px; }
-        .lightbox-close { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 35px; cursor: pointer; }
+        .lightbox-img { max-width: 90%; max-height: 90vh; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .lightbox-close {
+            position: absolute; top: 20px; right: 30px; color: #fff; font-size: 35px;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .lightbox-close:hover { color: var(--accent-color); }
         .report-preview-box { cursor: pointer; position: relative; }
+        .report-preview-box::after {
+            content: "\f00e  Click to Preview"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 37, 64, 0.6); color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: 0.3s; font-size: 16px;
+        }
+        .report-preview-box:hover::after { opacity: 1; }
     </style>
 </head>
 <body>
@@ -178,16 +125,16 @@
         <a href="https://chat.whatsapp.com/EhGJqCLZMjFJlta7xbKRNd" target="_blank" style="text-decoration: underline;"><i class="fab fa-whatsapp"></i> Join WhatsApp Group</a>
     </div>
 
-    <!-- Header 导航 -->
+    <!-- 导航栏 -->
     <header>
-        <a href="#home" class="logo-container"><img src="logo.png" alt="Logo" class="logo-img" onerror="this.style.display='none'"></a>
+        <a href="#home" class="logo-container"><img src="logo.png" alt="Logo" class="logo-img"></a>
         <nav>
-            <a href="#home">Home</a>
-            <a href="#shop">Shop</a>
-            <a href="#lab">Lab Reports</a>
-            <a href="#about">About Us</a>
-            <a href="#contact">Contact Us</a>
-            <a href="cart.html" id="nav-cart"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count" id="cart-count">0</span></a>
+            <a href="#home" style="transition: 0.3s;">Home</a>
+            <a href="#shop" style="transition: 0.3s;">Shop</a>
+            <a href="#lab" style="transition: 0.3s;">Lab Reports</a>
+            <a href="#about" style="transition: 0.3s;">About Us</a>
+            <a href="#contact" style="transition: 0.3s;">Contact Us</a>
+            <a href="cart.html" id="nav-cart" style="transition: 0.3s;"><i class="fas fa-shopping-cart"></i> Cart <span class="cart-count" id="cart-count">0</span></a>
         </nav>
     </header>
     
@@ -197,13 +144,13 @@
         <p>Laboratory Grade Purity | Direct Factory Pricing | Stealth Worldwide Shipping & Flexible Kits</p>
     </section>
 
-    <!-- 产品列表区 -->
+    <!-- 产品展示区 -->
     <section class="container" id="shop">
         <h2 class="section-title">Highest Quality Research Peptides</h2>
         <div class="product-grid" id="main-product-grid"></div>
     </section>
 
-    <!-- Lab 报告区 -->
+    <!-- COA 实验室检测报告区 -->
     <section class="features-section" id="lab">
         <h2 class="section-title">Verified Laboratory Test Reports</h2>
         
@@ -211,12 +158,14 @@
             <p style="color: #666; margin-bottom: 25px; font-size: 16px;">We test every batch to ensure 99%+ purity. Click to view full HPLC & MS certificates.</p>
             
             <div style="display: block; text-align: center; font-size: 0;">
+                <!-- COA 图 1 -->
                 <div class="report-preview-box" onclick="openLightbox('report1.jpg')" style="display: inline-block; width: 45%; min-width: 280px; max-width: 450px; margin: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 8px; overflow: hidden; background: #fff; vertical-align: top;">
-                    <img src="report1.jpg" alt="HPLC Test Report" style="width: 100%; height: auto; display: block;" onerror="this.src='https://via.placeholder.com/400x300?text=HPLC+Report'">
+                    <img src="report1.jpg" alt="HPLC Test Report" style="width: 100%; height: auto; display: block;">
                 </div>
 
+                <!-- COA 图 2 -->
                 <div class="report-preview-box" onclick="openLightbox('report2.jpg')" style="display: inline-block; width: 45%; min-width: 280px; max-width: 450px; margin: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border-radius: 8px; overflow: hidden; background: #fff; vertical-align: top;">
-                    <img src="report2.jpg" alt="Mass Spectrometry Report" style="width: 100%; height: auto; display: block;" onerror="this.src='https://via.placeholder.com/400x300?text=MS+Report'">
+                    <img src="report2.jpg" alt="Mass Spectrometry Report" style="width: 100%; height: auto; display: block;">
                 </div>
             </div>
         </div>
@@ -276,72 +225,19 @@
         </a>
     </div>
 
-    <!-- ==================== 年龄验证 + 邮箱登记强弹窗 ==================== -->
+    <!-- ==================== 1. 年龄验证弹窗 HTML ==================== -->
     <div class="modal-overlay" id="ageModal">
-        <div class="modal-card-styled">
-            <div class="modal-header-styled">
-                Age Verification Required
-            </div>
-            <div class="modal-body-styled">
-                <p>This website is restricted. To continue, please confirm you meet the minimum age requirement and accept the agreement below.</p>
-                
-                <div class="registration-fields">
-                    <label>Researcher Registration</label>
-                    <input type="email" id="regEmail" class="input-field" placeholder="Email Address *" required oninput="validateCheckboxes()">
-                    <input type="text" id="regName" class="input-field" placeholder="Full Name (Optional)" style="margin-bottom:0;" oninput="validateCheckboxes()">
-                </div>
-
-                <div class="checkbox-group">
-                    <input type="checkbox" id="chk1" onchange="validateCheckboxes()">
-                    <label for="chk1">I confirm I am 21+ years of age or older.</label>
-                </div>
-
-                <div class="checkbox-group">
-                    <input type="checkbox" id="chk2" onchange="validateCheckboxes()">
-                    <label for="chk2">I agree that products and information on this website are provided for laboratory research use only and are not intended for use in or on humans or animals. I will not use any products or information from this website for diagnosis, treatment, cure, or prevention of any condition. I agree to follow applicable laws and regulations, and I agree to the Terms of Service and Privacy Policy.</label>
-                </div>
-
-                <div class="checkbox-group">
-                    <input type="checkbox" id="chk3" onchange="validateCheckboxes()">
-                    <label for="chk3">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</label>
-                </div>
-
-                <div class="checkbox-group">
-                    <input type="checkbox" id="chk4">
-                    <label for="chk4">Remember my choice</label>
-                </div>
-            </div>
-            <div class="modal-footer-styled">
-                <button class="btn-exit" onclick="denyAge()">Exit</button>
-                <button class="btn-agree" id="btnAgree" disabled onclick="acceptAge()">I Agree & Enter</button>
+        <div class="modal-card">
+            <h2><i class="fas fa-user-shield" style="color: var(--accent-color);"></i> Age Verification Required</h2>
+            <p>This website contains restricted high-purity research compounds. You must be at least 21 years of age and agree that all products are strictly for laboratory research purposes only.</p>
+            <div class="modal-btns">
+                <button class="modal-btn-deny" onclick="denyAge()">I am under 21</button>
+                <button class="modal-btn-confirm" onclick="acceptAge()">I am 21 or older</button>
             </div>
         </div>
     </div>
 
-    <!-- 底部导航 & 购物车悬浮球 -->
-    <nav class="true-bottom-nav">
-        <a href="#shop" class="bottom-nav-item">
-            <i class="fas fa-store"></i>
-            <span>Shop</span>
-        </a>
-        <a href="cart.html" class="bottom-nav-item">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="nav-badge" id="bottom-cart-count">0</span>
-            <span>Cart</span>
-        </a>
-        <a href="#contact" class="bottom-nav-item">
-            <i class="fas fa-user"></i>
-            <span>My account</span>
-        </a>
-    </nav>
-
-    <!-- 右下角蓝色购物车图标 -->
-    <a href="cart.html" class="cart-float-btn">
-        <span class="cart-float-badge" id="float-cart-count">0</span>
-        <i class="fas fa-shopping-cart"></i>
-    </a>
-
-    <!-- COA Lightbox HTML -->
+    <!-- ==================== 2. COA 报告预览弹窗 HTML ==================== -->
     <div class="lightbox-overlay" id="lightboxModal" onclick="closeLightbox()">
         <span class="lightbox-close">&times;</span>
         <img class="lightbox-img" id="lightboxImg" src="" alt="Lab Test Certificate">
@@ -349,13 +245,7 @@
 
     <script src="data.js"></script>
     <script>
-        // 自动容错，如果 data.js 没读取到，给一组默认展示产品，防止页面卡空
-        var DEFAULT_PRODUCTS = [
-            { id: "tirzepatide", name: "Tirzepatide", image: "logo.png", variants: [{ price: 45 }] },
-            { id: "semaglutide", name: "Semaglutide", image: "logo.png", variants: [{ price: 35 }] },
-            { id: "retatrutide", name: "Retatrutide", image: "logo.png", variants: [{ price: 55 }] }
-        ];
-
+        // 计算价格范围
         function calculatePriceRange(product) {
             if (!product || !product.variants || product.variants.length === 0) return "Contact Price";
             var prices = product.variants.map(function(v) { return v.price; });
@@ -364,14 +254,18 @@
             return min === max ? "$" + min.toFixed(2) : "$" + min.toFixed(2) + " – $" + max.toFixed(2);
         }
 
+        // 渲染产品列表
         function renderProductsList() {
             var grid = document.getElementById('main-product-grid');
             if (!grid) return;
             grid.innerHTML = '';
             
-            var sourceData = (typeof PRODUCTS_DATA !== 'undefined' && Array.isArray(PRODUCTS_DATA)) ? PRODUCTS_DATA : DEFAULT_PRODUCTS;
+            if (typeof PRODUCTS_DATA === 'undefined' || !Array.isArray(PRODUCTS_DATA)) {
+                grid.innerHTML = '<p style="color:red;text-align:center;width:100%;">Data load error.</p>';
+                return;
+            }
 
-            sourceData.forEach(function(product) {
+            PRODUCTS_DATA.forEach(function(product) {
                 var priceText = calculatePriceRange(product);
                 var imgFile = product.image ? product.image : 'logo.png';
                 
@@ -379,7 +273,7 @@
                     <div class="product-card">
                         <a href="product.html?id=${product.id}" class="product-link">
                             <div class="product-img">
-                                <img src="${imgFile}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/200?text=Peptide'">
+                                <img src="${imgFile}" alt="${product.name}" onerror="this.src='logo.png'">
                             </div>
                             <div class="product-title">${product.name}</div>
                             <div class="product-price">${priceText}</div>
@@ -392,40 +286,21 @@
             });
         }
 
+        // 更新购物车数字
         function updateCartCount() {
             try {
                 var cart = JSON.parse(localStorage.getItem('peptides_cart')) || [];
                 var totalItems = cart.reduce(function(sum, item) { return sum + (parseInt(item.quantity) || 0); }, 0);
-                
-                if (document.getElementById('cart-count')) document.getElementById('cart-count').textContent = totalItems;
-                if (document.getElementById('bottom-cart-count')) document.getElementById('bottom-cart-count').textContent = totalItems;
-                if (document.getElementById('float-cart-count')) document.getElementById('float-cart-count').textContent = totalItems;
-            } catch(e) { console.log(e); }
-        }
-
-        function validateCheckboxes() {
-            var c1 = document.getElementById('chk1').checked;
-            var c2 = document.getElementById('chk2').checked;
-            var c3 = document.getElementById('chk3').checked;
-            var email = document.getElementById('regEmail').value.trim();
-            
-            var btn = document.getElementById('btnAgree');
-            if (c1 && c2 && c3 && email.length > 3 && email.includes('@')) {
-                btn.disabled = false;
-            } else {
-                btn.disabled = true;
+                var countEl = document.getElementById('cart-count');
+                if (countEl) countEl.textContent = totalItems;
+            } catch(e) {
+                console.log(e);
             }
         }
 
+        /* ==================== 年龄验证 JS 逻辑 ==================== */
         function acceptAge() {
-            var email = document.getElementById('regEmail').value.trim();
-            var name = document.getElementById('regName').value.trim();
-            localStorage.setItem('user_email', email);
-            if (name) localStorage.setItem('user_name', name);
-
-            if (document.getElementById('chk4').checked) {
-                localStorage.setItem('peptides_age_verified', 'true');
-            }
+            localStorage.setItem('peptides_age_verified', 'true');
             document.getElementById('ageModal').style.display = 'none';
         }
 
@@ -441,15 +316,19 @@
             }
         }
 
+        /* ==================== COA 报告预览 JS 逻辑 ==================== */
         function openLightbox(imgSrc) {
-            document.getElementById('lightboxImg').src = imgSrc;
-            document.getElementById('lightboxModal').style.display = 'flex';
+            var lightbox = document.getElementById('lightboxModal');
+            var img = document.getElementById('lightboxImg');
+            img.src = imgSrc;
+            lightbox.style.display = 'flex';
         }
 
         function closeLightbox() {
             document.getElementById('lightboxModal').style.display = 'none';
         }
 
+        // 初始化
         document.addEventListener("DOMContentLoaded", function() {
             checkAgeVerification();
             renderProductsList();
